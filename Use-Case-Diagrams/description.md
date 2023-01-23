@@ -42,14 +42,46 @@
 **Participating Actor(s):** Customer, Employee
 
 **Entry Condition:**
+- Customer is at business location
+- Customer has confirmation code
+- Employee is logged in
 
 **Exit Condition:**
+- Customer leaves with car
 
 **Event Flow:**
+1. Customer asks to pick up their car
+2. Employee verifies customer's reservation via confirmation code
+3. Employee clicks button (or however else we implement this) to tell the app that the car has been picked up
+4. Customer leaves with car
 
 **Exceptional Cases:**
+- ServerDown
+- WrongConfirmationCode
 
-## **Name:**
+## **Name:** ReturnCar
+**Participating Actor(s):** Customer, Employee
+
+**Entry Condition:**
+- Customer has car
+- Customer is at business location
+- Employee is logged in
+
+**Exit Condition:**
+- Business has car back
+
+**Event Flow:**
+1. Customer tells employee they're back to return the car
+2. Employee does quick inspection of car
+3. Employee clicks button to tell the app that the car has been returned
+4. App updates car's availability
+5. Customer leaves, without the car
+
+**Exceptional Cases:**
+- CarDamaged
+- ServerDown
+
+## **Name:** ReclaimCar
 **Participating Actor(s):** 
 
 **Entry Condition:**
@@ -60,7 +92,7 @@
 
 **Exceptional Cases:**
 
-## **Name:**
+## **Name:** FileComplaint
 **Participating Actor(s):** 
 
 **Entry Condition:**
@@ -71,18 +103,7 @@
 
 **Exceptional Cases:**
 
-## **Name:**
-**Participating Actor(s):** 
-
-**Entry Condition:**
-
-**Exit Condition:**
-
-**Event Flow:**
-
-**Exceptional Cases:**
-
-## **Name:**
+## **Name:** PayEmployees
 **Participating Actor(s):** 
 
 **Entry Condition:**

@@ -82,46 +82,83 @@
 - ServerDown
 
 ## **Name:** ReclaimCar
-**Participating Actor(s):** 
+**Participating Actor(s):** Employee
 
 **Entry Condition:**
+- Car is checked out
+- Employee is logged in
 
 **Exit Condition:**
+- Car is checked back in
 
 **Event Flow:**
+1. Car is reported stolen or is overdue
+2. Employee clicks button to LoJack the car
+3. Employee (same or other) goes to retrieve LoJacked car
+4. Car is returned to business location
+5. Employee clicks button to indicate car is checked back in and available to rent/reserve
 
 **Exceptional Cases:**
+- LoJackFail
+- CantLocateCar
 
 ## **Name:** FileComplaint
-**Participating Actor(s):** 
+**Participating Actor(s):** Customer or Employee (Person)
 
 **Entry Condition:**
+- Person is logged in
 
 **Exit Condition:**
+- Complaint sent to Manager
 
 **Event Flow:**
+1. Person clicks button to file a complaint
+2. Person writes their complaint
+3. Person clicks "Submit"
+4. Complaint is saved in the database to be dealt with by Manager
 
 **Exceptional Cases:**
+- ServerDown
+- Cancel
+
+## **Name:** HandleComplaint
+**Participating Actor(s):** Manager, Person (Customer or Employee / "Complainer")
+
+**Entry Condition:**
+- Manager is logged in
+- There are complaints to deal with
+
+**Exit Condition:**
+- Complaint is marked as resolved
+
+**Event Flow:**
+1. Manager selects a complaint to handle
+2. Manager sends a response and (ideally) does something in the real world to address the complaint (i.e. reprimanding a rude employee, improving the quality of the service, ensuring the cars are cleaned better, etc.)
+3. Person sees reply and marks complaint as resolved
+4. Complaint is removed from the database
+
+**Exceptional Cases:**
+- ServerDown
+- StillUnsatisfied
 
 ## **Name:** PayEmployees
-**Participating Actor(s):** 
+**Participating Actor(s):** Manager
 
 **Entry Condition:**
+- Manager is logged in
+- Manager has money
+- Employee(s) have hours for which they haven't been paid
 
 **Exit Condition:**
+- Employees have been paid
 
 **Event Flow:**
+1. Manager sees they owe employees for hours worked
+2. Manager selects "pay" and chooses amount calculated by system
+3. Manager authorizes payment
+4. Employees are notified they have been paid
 
 **Exceptional Cases:**
-
-## **Name:**
-**Participating Actor(s):** 
-
-**Entry Condition:**
-
-**Exit Condition:**
-
-**Event Flow:**
-
-**Exceptional Cases:**
+- RefusePayment
+- ServerDown
 

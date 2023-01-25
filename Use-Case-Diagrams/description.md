@@ -56,7 +56,6 @@
 4. Customer leaves with car
 
 **Exceptional Cases:**
-- ServerDown
 - WrongConfirmationCode
 
 ## **Name:** ReturnCar
@@ -79,7 +78,6 @@
 
 **Exceptional Cases:**
 - CarDamaged
-- ServerDown
 
 ## **Name:** ReclaimCar
 **Participating Actor(s):** Employee
@@ -118,7 +116,6 @@
 4. Complaint is saved in the database to be dealt with by Manager
 
 **Exceptional Cases:**
-- ServerDown
 - Cancel
 
 ## **Name:** HandleComplaint
@@ -138,7 +135,6 @@
 4. Complaint is removed from the database
 
 **Exceptional Cases:**
-- ServerDown
 - StillUnsatisfied
 
 ## **Name:** PayEmployees
@@ -160,5 +156,4 @@
 
 **Exceptional Cases:**
 - RefusePayment
-- ServerDown
 

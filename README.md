@@ -16,3 +16,6 @@ person must be given for a Pull Request to be merged.
 This project is written in Python, using a Django web server. The database backend will use SQLite. 
 Setup procedure tbd...
 
+## Build Instructions
+
+To be determined...

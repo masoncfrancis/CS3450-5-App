@@ -10,3 +10,9 @@ Each user story should be associated with it's own branch. Changes will **never*
 
 In order to submit to the main branch, a Pull Request must be created. Approval from at least one 
 person must be given for a Pull Request to be merged.
+
+## Tool Stack
+
+This project is written in Python, using a Django web server. The database backend will use SQLite. 
+Setup procedure tbd...
+

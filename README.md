@@ -14,8 +14,20 @@ person must be given for a Pull Request to be merged.
 ## Tool Stack
 
 This project is written in Python, using a Django web server. The database backend will use SQLite. 
-Setup procedure tbd...
+All development will be done on team members' local machines. Setup procedure tbd...
 
 ## Build Instructions
 
 To be determined...
+
+## Unit Testing Instructions
+
+Unit testing methods to be determined...
+
+## System Testing Instructions
+
+System testing methods to be determined...
+
+## Miscellaneous Development Notes
+
+Yeet

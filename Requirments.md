@@ -1,6 +1,6 @@
 # Requirments
 ## Functional Requirments
-- Has a functional database
+- Uses SQL database
 - permissions
 - login/authentication
 - cars must have available dates
@@ -18,15 +18,22 @@
 - mark car as gone
 - return cars
 
-### recovery specilist
+### recovery specalist
 - get address of car
-- description of whats wrong
+- presents a description of whats wrong
 - return cars
-
 
 ### customer
 - can view cars
 - can rent cars
+
+## Non Functional Requirments
+- Has a functional database
+- Has a consistent theme and is easy to use
+- simple checkout flow
+- works on many machines
+- Doesn't get 'hung up' in places that would interrupt a user expereince
+- 
 
 
 

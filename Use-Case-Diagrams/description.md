@@ -1,3 +1,4 @@
+![image](uc_login.png)
 ## **Name:** LogIn
 **Participating Actor(s):** Person (may be Customer, Manager, or Employee)
 

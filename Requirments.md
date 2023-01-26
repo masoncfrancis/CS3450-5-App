@@ -1,31 +1,33 @@
-# Requirments
+# Requirments (should)
 ## Functional Requirments
-- Uses SQL database
 - permissions
+    - manager can manage employees/cars 
+    - employees can checkout cars
+    - users can rent cars
 - login/authentication
 - cars must have available dates
 - count employee hours
+- users can add to balance
 
 ### managers
-- manage employees
-- pay employees
-- manage cars in database
-- low-Jack car
+- can manage all database models and also do everything an employee can do
+- A django super admin
 
-### till person
+## employees 
+- low-Jack car
 - verify car rental
-- give user keys
 - mark car as gone
 - return cars
-
-### recovery specalist
-- get address of car
-- presents a description of whats wrong
-- return cars
+- get retreival information for a car
+- submit hours
+- 
 
 ### customer
 - can view cars
 - can rent cars
+- Can submit car breakdown for pickup
+- can submit complaints
+
 
 ## Non Functional Requirments
 - Has a functional database
@@ -33,7 +35,15 @@
 - simple checkout flow
 - works on many machines
 - Doesn't get 'hung up' in places that would interrupt a user expereince
-- 
+- users cannot access 
+
+# Requirments (maybe)
+
+## functional
+### Customer
+- customer can submit application for job
+
+### 
 
 
 

@@ -13,12 +13,12 @@ A manager's job is to manage employees, cars, and pay employess
 ### Employees
 A employee's job is to interact with the vehicle and customer to provide rentals to customers. They also want to sell insurance.
 
-### customer
+### Customer
 A customers goals is to rent a car.
 
 # Requirements
 ## Functional Requirements
-### permissions
+### Permissions
 - manager can manage employees/cars 
 - employees can checkout cars
 - users can place rental order on cars

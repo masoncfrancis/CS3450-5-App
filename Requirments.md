@@ -1,10 +1,14 @@
+# Glossary
+[Intro And Context](#intro-and-context)  
+[Users and their goals](#users-and-their-goals)  
+[Requirements](#requirements)  
+[Future Features](#future-features)
 # Intro and Context
 This is the requirements for a car rental application. It has customers, employees, managers, and uses provides a economy of things. Money is added arbitrarily and the cars don't really exist.
 
-# Users and there goals
+# <a name="userGoals"></a>Users and their goals
 ### Managers
 A manager's job is to manage employees, cars, and pay employess
-
 
 ### Employees
 A employee's job is to interact with the vehicle and customer to provide rentals to customers. They also want to sell insurance.
@@ -45,7 +49,7 @@ A customers goals is to rent a car.
 - retrieve lojacked vehicles
 - Must be able to add insurance to rental
 
-### customer
+### Customer
 - can view cars
 - can rent cars
 - can add insurance to rental
@@ -62,14 +66,25 @@ A customers goals is to rent a car.
 
 
 
-# Requirements (future)
+# Future Features
 
 ## Functional
 
 ### Employee 
 - Time Tracker
+- Shows where car is on google maps
+- gives directions to car
 ### Customer
 - customer can submit application for job
+- shows location picker on google maps
+- insurance tiers
+
+### Manager
+- UI for editing database models outside of django admin
+- images can be uploaded instead of selected from
+
+## Non functional
+- Website is hosted on the internet
 
 
 

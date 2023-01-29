@@ -4,6 +4,9 @@ This repo contains code for Dan's Car Barn, a rental car mangement software proj
 
 The repository's name comes from the course name and group number. 
 
+Directory names are written in lowercase according to their purpose. 
+File names are written in camelCase according to the purpose they serve. 
+
 ## Version Control Procedures
 
 Each user story should be associated with it's own branch. Changes will **never** be pushed to the main branch. 

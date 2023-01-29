@@ -33,11 +33,9 @@ A file named 'common.env' will be used to hold environment variables, and will n
 
 ## Unit Testing Instructions
 
+Unit testing will be carried out using Python's unittest. We will unit test the back end code. The front end will not be unit tested.
 
-
-Django uses Python unittest. Backend will be unit tested, front end will not be.
-
-Unit testing will be completed before submitting pull requests. 
+As a best practice, unit testing will be completed before submitting pull requests.
 
 ## System Testing Instructions
 

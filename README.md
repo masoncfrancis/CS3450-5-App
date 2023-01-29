@@ -11,7 +11,7 @@ Each user story should be associated with it's own branch. Changes will **never*
 In order to submit to the main branch, a Pull Request must be created. Approval from at least one 
 person must be given for a Pull Request to be merged.
 
-Branch names are related to the feature being developed.
+Branch names are related to the feature being developed and the person developing them.
 
 Unit testing will be completed before submitting pull requests.
 

@@ -18,8 +18,9 @@ Unit testing will be completed before submitting pull requests.
 ## Tool Stack
 
 This project is written in Python, using a Django web server. The database backend will use SQLite. 
-UI will be done in 
-All development will be done on team members' local machines. Setup procedure tbd...
+UI will be done in HTML using the Bootstrap 5 framework. 
+All development will be done on team members' local machines, using 
+code cloned from this GitHub repo. 
 
 ## Build Instructions
 
@@ -28,6 +29,8 @@ A new project will be created using the command:
 ```
 $ django-admin startproject mysite
 ```
+
+Code for the project may be copied down from this GitHub repo.
 
 A file named 'common.env' will be used to hold environment variables, and will not be committed to GitHub for security reasons.
 

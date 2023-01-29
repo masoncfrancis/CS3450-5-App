@@ -39,10 +39,10 @@ As a best practice, unit testing will be completed before submitting pull reques
 
 ## System Testing Instructions
 
-System testing methods to be determined...
+Andrew will make sure the project runs on macOS. Mason will make sure it runs on Linux. Jack and Caleb will make sure it runs on Windows. 
 
-Andrew will make sure it runs on macOS, Mason will make sure it runs on Linux, and the others will make sure it runs on Windows. Linux is most important because the web server will be Linux.
+As a point of information, it is most important for this project to run correctly on Linux because a real-world webserver that will run this software would be Linux. 
 
 ## Miscellaneous Development Notes
 
-Yeet
+N/A

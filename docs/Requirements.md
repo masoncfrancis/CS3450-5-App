@@ -8,7 +8,7 @@ This is the requirements for a car rental application. It has customers, employe
 
 # <a name="userGoals"></a>Users and their goals
 ### Managers
-A manager's job is to manage employees, cars, and pay employess
+A manager's job is to manage(preform CRUD operations on) employees, cars, and pay employees
 
 ### Employees
 A employee's job is to interact with the vehicle and customer to provide rentals to customers. They also want to sell insurance.
@@ -19,13 +19,13 @@ A customers goals is to rent a car.
 # Requirements
 ## Functional Requirements
 ### Permissions
-- manager can manage employees/cars 
-- employees can checkout cars
-- users can place rental order on cars
-- users cannot manage data except their own
-- employees cannot create/destroy data
-- users can add money to their balance
-- Software must have input for employee hours
+- Manager can manage employees/cars 
+- Employees can checkout cars
+- Users can place rental order on cars
+- Users cannot manage data except their own
+- Employees cannot create/destroy data
+- Users can add money to their balance
+- software must have input for employee hours
 
 ### Vehicles
 - Cars must have available dates
@@ -46,23 +46,23 @@ A customers goals is to rent a car.
 - Lojack stolen vehicles
 - Verify rental information
 - Verify return
-- retrieve lojacked vehicles
+- Retrieve lojacked vehicles
 - Must be able to add insurance to rental
 
 ### Customer
-- can view cars
-- can rent cars
-- can add insurance to rental
+- Can view cars
+- Can rent cars
+- Can add insurance to rental
 - Can submit car breakdown for pickup
-- can submit complaints
-## Non Functional Requirments
+- Can submit complaints
+## Non Functional Requirements
 - Users are able to login
 - Has a functional database
 - Has a consistent theme and is easy to use
-- simple checkout flow
-- works on many browsers
-- Doesn't get 'hung up' in places that would interrupt a user expereince
-- customers cannot access employee things
+- Simple checkout flow
+- Works on many browsers
+- Doesn't get 'hung up' in places that would interrupt a user experience
+- Customers cannot access employee things
 
 
 
@@ -73,15 +73,15 @@ A customers goals is to rent a car.
 ### Employee 
 - Time Tracker
 - Shows where car is on google maps
-- gives directions to car
+- Gives directions to car
 ### Customer
-- customer can submit application for job
-- shows location picker on google maps
-- insurance tiers
+- Customer can submit application for job
+- Shows location picker on google maps
+- Insurance tiers
 
 ### Manager
 - UI for editing database models outside of django admin
-- images can be uploaded instead of selected from
+- Images can be uploaded instead of selected from
 
 ## Non functional
 - Website is hosted on the internet

@@ -61,4 +61,4 @@ We will be having SCRUM stand-up meetings every Monday and Wednesday at 6 p.m. o
  
 ## (Reference to README.md)
 
-Here's the reference to [README](README.md) for the configuration management plan.
+Here's the reference to [README](../README.md) for the configuration management plan.

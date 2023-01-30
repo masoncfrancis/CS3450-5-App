@@ -1,6 +1,6 @@
 # CS3450-5-App
 
-This repo contains code for Dan's Car Barn, a rental car mangement software project for CS 3450.
+This repo contains code for Dan's Car Barn, a rental car management software project for CS 3450.
 
 The repository's name comes from the course name and group number. 
 
@@ -35,7 +35,7 @@ $ django-admin startproject mysite
 
 Code for the project may be copied down from this GitHub repo.
 
-A file named 'common.env' will be used to hold environment variables, and will not be committed to GitHub for security reasons.
+A file named 'common.env' will be used to hold environment variables shells, the real .env will not be committed to GitHub for security reasons and will be filled out by each developer.
 
 ## Unit Testing Instructions
 

@@ -11,7 +11,12 @@
     </div>
 <div>
 {% else %}
-  <p>You are not logged in</p>
-  <a class="btn btn-primary center" href="{% url 'login' %}" role="button">Log in</a>
+<div class="card card-primary" style="width: 18rem; align-items: center; margin:auto; margin-top:10rem">
+    <div class="card-body">
+        <p>You are not logged in</p>
+        <a class="btn btn-primary center" href="{% url 'login' %}" role="button">Log in</a>
+    </div>
+<div>
+  
 {% endif %}
 {% endblock %}

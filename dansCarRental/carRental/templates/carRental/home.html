@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+{% if user.is_authenticated %}
+<div class="card card-primary" style="width: 18rem; align-items: center; margin:auto; margin-top:10rem">
+    <div class="card-body">
+        <p class="card-title">Hi {{ user.username }}!<p>
+        <a class="btn btn-primary" href="{% url 'login' %}" role="button">Log out</a>
+    </div>
+<div>
+{% else %}
+<div class="card card-primary" style="width: 18rem; align-items: center; margin:auto; margin-top:10rem">
+    <div class="card-body">
+        <p>You are not logged in</p>
+        <a class="btn btn-primary center" href="{% url 'login' %}" role="button">Log in</a>
+    </div>
+<div>
+  
+{% endif %}
+{% endblock %}

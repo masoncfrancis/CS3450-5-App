@@ -1,3 +1,4 @@
+![image](uc_login.png)
 ## **Name:** LogIn
 **Participating Actor(s):** Person (may be Customer, Manager, or Employee)
 
@@ -18,6 +19,7 @@
 - TimeOut
 - ServerDown
 
+![image](uc_reserve.png)
 ## **Name:** ReserveCar
 **Participating Actor(s):** Customer
 
@@ -29,7 +31,7 @@
 - Customer has reservation
 
 **Event Flow:**
-- Customer searches for cars, limiting search by availability and/or price range
+- Customer searches for cars
 - Customer selects one they want
 - Customer pays for reservation, optionally adding insurance
 - Database is updated to reflect car's unavailability over the reserved time window
@@ -38,6 +40,7 @@
 **Exceptional Cases:**
 - Cancel
 
+![image](uc_pickup.png)
 ## **Name:** PickUpReservedCar
 **Participating Actor(s):** Customer, Employee
 
@@ -52,12 +55,13 @@
 **Event Flow:**
 1. Customer asks to pick up their car
 2. Employee verifies customer's reservation via confirmation code
-3. Employee clicks button (or however else we implement this) to tell the app that the car has been picked up
+3. Employee tells the app that the car has been picked up
 4. Customer leaves with car
 
 **Exceptional Cases:**
 - WrongConfirmationCode
 
+![image](uc_return.png)
 ## **Name:** ReturnCar
 **Participating Actor(s):** Customer, Employee
 
@@ -72,13 +76,14 @@
 **Event Flow:**
 1. Customer tells employee they're back to return the car
 2. Employee does quick inspection of car
-3. Employee clicks button to tell the app that the car has been returned
+3. Employee tells the app that the car has been returned
 4. App updates car's availability
 5. Customer leaves, without the car
 
 **Exceptional Cases:**
 - CarDamaged
 
+![image](uc_reclaimcar.png)
 ## **Name:** ReclaimCar
 **Participating Actor(s):** Employee
 
@@ -91,15 +96,16 @@
 
 **Event Flow:**
 1. Car is reported stolen or is overdue
-2. Employee clicks button to LoJack the car
+2. Employee tells app to LoJack the car
 3. Employee (same or other) goes to retrieve LoJacked car
 4. Car is returned to business location
-5. Employee clicks button to indicate car is checked back in and available to rent/reserve
+5. Employee tells app that car is checked back in and available to rent/reserve
 
 **Exceptional Cases:**
 - LoJackFail
 - CantLocateCar
 
+![image](uc_filecomplaint.png)
 ## **Name:** FileComplaint
 **Participating Actor(s):** Customer or Employee (Person)
 
@@ -112,12 +118,13 @@
 **Event Flow:**
 1. Person clicks button to file a complaint
 2. Person writes their complaint
-3. Person clicks "Submit"
+3. Person submits complaint
 4. Complaint is saved in the database to be dealt with by Manager
 
 **Exceptional Cases:**
 - Cancel
 
+![image](uc_handlecomplaint.png)
 ## **Name:** HandleComplaint
 **Participating Actor(s):** Manager, Person (Customer or Employee / "Complainer")
 
@@ -126,7 +133,7 @@
 - There are complaints to deal with
 
 **Exit Condition:**
-- Complaint is marked as resolved
+- Complaint is marked as resolved and deleted
 
 **Event Flow:**
 1. Manager selects a complaint to handle
@@ -137,6 +144,7 @@
 **Exceptional Cases:**
 - StillUnsatisfied
 
+![image](uc_payemployees.png)
 ## **Name:** PayEmployees
 **Participating Actor(s):** Manager
 

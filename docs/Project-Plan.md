@@ -10,7 +10,7 @@ Obvious data that must be kept track of in this website are user accounts, balan
 
 ## Team Organization
 
-We will be using Jira as our primary tool for organizing tasks that need to be done during a sprint and tracking progress. For questions that come up, we will also create different channels within our Discord group to organize our communication with each other. Also, every sprint we will switch who is SCRUM master.
+We will be using Jira as our primary tool for organizing tasks that need to be done during a sprint and tracking progress. For questions that come up, we will also create different channels within our Discord group to organize our communication with each other. Also, every sprint we will switch who is SCRUM master. We will also have a designated SCRUM meeting scribe.
 
 ## Software Development Process
 

@@ -84,7 +84,7 @@ To start the project server, run this command from the project folder root (repl
 python3 manage.py runserver
 ```
 
-#### Other Important Information To Know
+### Other Important Information To Know
 
 A file named 'common.env' will be used to hold environment variables shells, the real .env will not be committed to GitHub for security reasons and will be filled out by each developer.
 

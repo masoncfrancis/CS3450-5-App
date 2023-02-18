@@ -61,8 +61,8 @@ To activate the virtual environment in Windows, run this command from the projec
 .\venv\Scripts\activate
 ```
 
-You will need to have this virtual environment activated in order to run the code in this project. If your virtual environment ever becomes deactivated, you may run the above command for your 
-applicable OS again from the project folder root. 
+You will need to have this virtual environment activated in order to run the code in this project. If your virtual environment ever becomes deactivated, you may run the above command (for your 
+applicable OS) again from the project folder root. 
 
 #### Install Project Dependencies
 

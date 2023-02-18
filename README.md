@@ -40,7 +40,7 @@ Code for the project may be cloned or downloaded from this GitHub repo.
 
 #### Create a Virtual Environment
 
-Once the code has been downloaded or cloned to a folder, it is recommended, but not required, to create a Python virtual environment. If you decide not to, please skip to the 'Install Project Dependencies' section. 
+Once the code has been downloaded or cloned to a folder, it is recommended (but not required) to create a Python virtual environment. If you decide not to, please skip to the 'Install Project Dependencies' section. 
 Otherwise, continue following the instructions in this section. 
 
 Open a terminal in the project folder and run this command (replacing `python3` with `python` as necessary for your installation):

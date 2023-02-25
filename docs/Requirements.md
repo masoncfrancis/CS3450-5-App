@@ -4,79 +4,69 @@
 [Requirements](#requirements)  
 [Future Features](#future-features)
 # Intro and Context
-This is the requirements for a car rental application. It has customers, employees, managers, and uses provides a economy of things. Money is added arbitrarily and the cars don't really exist.
+This is the requirements document for a car rental application. It has different user types (manager, employees, and customers) and provides an economy of things. Money will be added arbitrarily by the manager to user's balances, and the vehicles that users are reserving won't really exist.
 
 # <a name="userGoals"></a>Users and their goals
 ### Managers
-A manager's job is to manage(preform CRUD operations on) employees, cars, and pay employees
+A manager's job is to manage (preform CRUD operations on) employees, vehicles and their assigned reservations, and pay employees. They will also be able to manage complaints filed by customers.
 
 ### Employees
-A employee's job is to interact with the vehicle and customer to provide rentals to customers. They also want to sell insurance.
+An employee's job is to manage active reservations (this includes lo-jacking vehicles and picking them). They can also be given the option to sell insurance. The customer for this website has also asked that employees be allowed to make reservations, so they will be able to have a personal balance and make reservations just like customers. 
 
 ### Customer
-A customers goals is to rent a car.
+A customer's primary "goal" will be able to reserve vehicles, file complaints, and add to their balance.
 
 # Requirements
 ## Functional Requirements
 ### Permissions
-- Manager can manage employees/cars 
-- Employees can checkout cars
-- Users can place rental order on cars
-- Users cannot manage data except their own
+- A manager can pay and change the status of employees, and resolve filed complaints from customers
+- Employees can reserve vehicles, lo-jack and pick up targeted vehicles, and submit an "hours worked" request to the manager to be paid
+- Customers may only interact with their own balances and active reservations
 - Employees cannot create/destroy data
 - Users can add money to their balance
-- software must have input for employee hours
 
 ### Vehicles
-- Cars must have available dates
-- Cars can be lojacked by employee
+- Cars must be able to display available dates
+- Cars can be lo-jacked by an employee and picked up
 - Cars cannot be double rented
-- Cars show available dates
 - Cars can be returned early or late
 
-### Managers
-- Manage users, examples include firing, creating new employees, paying employees
-- Manage cars, CRUD operations on all vehicles
-- Can act as employee if necessary
+### Manager
+- Can manage all users (including firing/hiring and paying employees)
+- Manage vehicles (CRUD operations on all vehicles)
+- Can act as an employee (if necessary)
 
 
 ### Employees
-- Rent a car to a customer
-- Return a car from a customer
-- Lojack stolen vehicles
-- Verify rental information
-- Verify return
-- Retrieve lojacked vehicles
-- Must be able to add insurance to rental
+- Can lo-jack vehicles and pick them up
+- Verify a return
+- Add insurance to a rental
 
 ### Customer
-- Can view cars
-- Can rent cars
+- Can view active reservations
+- Can rent vehicles
 - Can add insurance to rental
 - Can submit car breakdown for pickup
 - Can submit complaints
+
 ## Non Functional Requirements
-- Users are able to login
-- Has a functional database
-- Has a consistent theme and is easy to use
+- Users are able to log-in
+- A functional database
+- Website has a consistent theme and is easy to use
 - Simple checkout flow
-- Works on many browsers
+- Works on different browsers
 - Doesn't get 'hung up' in places that would interrupt a user experience
-- Customers cannot access employee things
-
-
 
 # Future Features
 
 ## Functional
 
 ### Employee 
-- Time Tracker
-- Shows where car is on google maps
-- Gives directions to car
+- "Time Tracker" for reservations
+- Can see where a vehicle is on Google Maps
+
 ### Customer
-- Customer can submit application for job
-- Shows location picker on google maps
+- Customer can request to be an employee
 - Insurance tiers
 
 ### Manager

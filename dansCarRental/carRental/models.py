@@ -57,3 +57,9 @@ class Reservation(models.Model):
     start = models.DateField()
     end = models.DateField()
     confirmation_code = models.CharField(max_length=5)
+
+class complaint(models.Model):
+    date = models.DateTimeField(auto_now_add=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    description = models.TextField()
+

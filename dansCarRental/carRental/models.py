@@ -6,11 +6,17 @@ class Customer(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     balance = models.IntegerField(default=0)
 
+    def __str__(self) -> str:
+        return self.user.username
+
 
 class Employee(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     balance = models.IntegerField(default=0)
     hours = models.IntegerField(default=0)
+
+    def __str__(self) -> str:
+        return self.user.username
 
 class Manager(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
@@ -18,6 +24,9 @@ class Manager(models.Model):
         permissions=[
             ("mange_employees", "Can manage employees")
         ]
+
+    def __str__(self) -> str:
+        return self.user.username
     
 class Vehicle(models.Model):
     STATUS = [
@@ -35,6 +44,9 @@ class Vehicle(models.Model):
     year = models.CharField(max_length=4)
     price = models.IntegerField(choices=TIER)
     status = models.CharField(max_length=4, choices = STATUS, default='AV')
+
+    def __str__(self) -> str:
+        return self.year + ", " + self.make + " " + self.model
 
     def getStatus(self) -> STATUS:
         return self.STATUS[self.status]

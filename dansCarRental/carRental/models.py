@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from decimal import Decimal
 
 # Create your models here.
 class Customer(models.Model):
@@ -66,6 +67,12 @@ class Vehicle(models.Model):
 
     def getStatus(self) -> STATUS:
         return self.STATUS[self.status]
+    
+    def pickUp():
+        self.status = self.STATUS['RENT']
+    
+    def returnVehicle():
+        self.status = self.STATUS['AV']
 
 class Reservation(models.Model):
     vehicle = models.ForeignKey(Vehicle, on_delete=models.CASCADE)

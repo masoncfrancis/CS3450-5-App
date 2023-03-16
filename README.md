@@ -55,7 +55,7 @@ Next, you will need to activate the virtual environment. To activate the virtual
 $ source venv/bin/activate
 ```
 
-To activate the virtual environment in Windows, run this command from the project folder root:
+To activate the virtual environment in Windows, open Windows PowerShell and run this command from the project folder root:
 
 ```
 $ .\venv\Scripts\activate
@@ -86,7 +86,7 @@ $ python3 manage.py runserver
 
 ### Other Important Information To Know
 
-A file named 'common.env' will be used to hold environment variables shells, the real .env will not be committed to GitHub for security reasons and will be filled out by each developer.
+A file named 'common.env' will be used to hold environment variables shells. The real .env will not be committed to GitHub for security reasons and will be filled out by each developer.
 
 ## Unit Testing Instructions
 

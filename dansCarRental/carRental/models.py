@@ -4,26 +4,42 @@ from django.contrib.auth.models import User
 # Create your models here.
 class Customer(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    balance = models.IntegerField(default=0)
+    balance = models.DecimalField(default=0.00, max_digits=19, decimal_places=2)
+
+    def addMoney(self, amount=0.00):
+        self.balance += amount
+        self.save()
 
     def __str__(self) -> str:
         return self.user.username
 
 
-class Employee(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    balance = models.IntegerField(default=0)
+class Employee(Customer):
     hours = models.IntegerField(default=0)
+    rate = models.DecimalField(default=15.00, max_digits=6, decimal_places=2)
+
+    def addWorkedHours(self, hours=0):
+        self.hours += hours
+        self.save()
 
     def __str__(self) -> str:
         return self.user.username
 
-class Manager(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+class Manager(Employee):
     class Meta:
         permissions=[
             ("mange_employees", "Can manage employees")
         ]
+
+    def hire(self, newHire):
+        n = Employee()
+        n.customer = newHire
+
+    def payEmployees(self):
+        employee_list = Employee.objects.all()
+        for emp in employee_list:
+            emp.addMoney(emp.hours * emp.rate)
+            emp.hours = 0
 
     def __str__(self) -> str:
         return self.user.username

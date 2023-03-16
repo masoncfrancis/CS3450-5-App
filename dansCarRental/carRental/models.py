@@ -20,10 +20,6 @@ class Employee(models.Model):
 
 class Manager(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    class Meta:
-        permissions=[
-            ("mange_employees", "Can manage employees")
-        ]
 
     def __str__(self) -> str:
         return self.user.username
@@ -53,7 +49,7 @@ class Vehicle(models.Model):
 
 class Reservation(models.Model):
     vehicle = models.ForeignKey(Vehicle, on_delete=models.CASCADE)
-    customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, default=None)
     start = models.DateField()
     end = models.DateField()
     confirmation_code = models.CharField(max_length=5)

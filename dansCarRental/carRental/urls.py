@@ -4,4 +4,5 @@ from django.views.generic.base import TemplateView
 urlpatterns = [
     path('accounts/', include('django.contrib.auth.urls')),
     path('', TemplateView.as_view(template_name='carRental/home.html'), name='home'),
+    path('account', TemplateView.as_view(template_name='carRental/account.html'), name='account')
 ]

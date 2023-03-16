@@ -27,10 +27,9 @@ def car_page(request):
         vehicles = Vehicle.objects.all()
 
     cars = []
-    flag = True
     for vehicle in vehicles:
         res = vehicle.reservation_set.filter(start__range=[startDate, endDate]).filter(end__range=[startDate,endDate])
-        if res == None:
+        if len(res) == 0:
             cars.append(vehicle)
         else:
             continue

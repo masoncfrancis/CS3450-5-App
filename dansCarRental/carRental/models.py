@@ -27,10 +27,6 @@ class Employee(Customer):
         return self.user.username
 
 class Manager(Employee):
-    class Meta:
-        permissions=[
-            ("mange_employees", "Can manage employees")
-        ]
 
     def hire(self, newHire):
         n = Employee()

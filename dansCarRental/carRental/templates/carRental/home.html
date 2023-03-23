@@ -58,6 +58,9 @@
     <input type="submit" class="btn btn-success" style="width:10rem" value="submit"></input>
 </div>
 </form>
+{% if noCars %}
+    <h2 class="text-center" style="color: red">No cars for those dates, please choose different dates or a different type</h2>
+{% endif %}
 
 <script src="https://cdn.jsdelivr.net/npm/moment@2.29.4/moment.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/pikaday/pikaday.js"></script>

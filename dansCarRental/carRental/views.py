@@ -28,14 +28,12 @@ def car_page(request):
 
     cars = []
     for vehicle in vehicles:
-        res = vehicle.reservation_set.filter(start__range=[startDate, endDate]).filter(end__range=[startDate,endDate])
-        if len(res) == 0:
+        reservations = vehicle.reservation_set.filter(start__range=[startDate, endDate]).filter(end__range=[startDate,endDate])
+        res = vehicle.reservation_set.filter(start__lte=start).filter(end__gte=end)
+        if len(reservations) == 0 and len(res) == 0:
             cars.append(vehicle)
         else:
             continue
         
-                
-    
-            
     context = {'cars': cars, start:start, end:end }
     return render(request, 'carRental/cars.html', context)

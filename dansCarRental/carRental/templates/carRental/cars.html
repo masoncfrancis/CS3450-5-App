@@ -6,6 +6,9 @@
 {% block content %}
 <div class="container">
     <div class="row">
+        {%if not cars%}
+        <h1 class="text-center" style="margin-top: 20rem;">No cars for selected dates with type</h1>
+        {%endif %}
         {% for car in cars%}
         <div class="col-sm">  
             <div class="card" style="width: 18rem; margin: 10px;">

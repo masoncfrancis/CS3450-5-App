@@ -4,6 +4,11 @@ from carRental.models import Vehicle, Reservation
 from datetime import date
 
 # Create your views here.
+def conf_ver_page(request):
+    c_code = int(request.POST['confirmation_code'])
+    reservation = Reservation.objects.get(confirmation_code=c_code)
+    context = {'c_code': c_code, 'reservation': reservation}
+    return render(request, 'carRental/conf_ver.html', context)
 
 
 def car_page(request):

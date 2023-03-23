@@ -77,7 +77,7 @@ class Reservation(models.Model):
         ('DIS', 'Returned')
     ]
     vehicle = models.ForeignKey(Vehicle, on_delete=models.CASCADE)
-    customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
+    customer = models.ForeignKey(User, on_delete=models.CASCADE)
     start = models.DateField()
     end = models.DateField()
     status = models.CharField(max_length = 10,choices = STATUS, default='AWAIT')

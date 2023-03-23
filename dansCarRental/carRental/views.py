@@ -5,6 +5,8 @@ from datetime import date
 
 # Create your views here.
 
+def checkout_page(request, startDate, endDate, car):
+    pass
 
 def car_page(request):
     typeOfCar = int(request.POST['type'])

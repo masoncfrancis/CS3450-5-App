@@ -1,6 +1,7 @@
 *.drawio
 __pycache__/
 .idea
-.DS_Store
-*.sqlite3
+**/.DS_Store
+**/db.sqlite3
 venv
+dump.json

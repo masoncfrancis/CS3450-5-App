@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block title %}Cars{% endblock %}
+
+{% load static %}
+{% block content %}
+<div class="container">
+    <div class="row">
+        {%if not cars%}
+        <h1 class="text-center" style="margin-top: 20rem;">No cars for selected dates with type</h1>
+        {%endif %}
+        {% for car in cars%}
+        <div class="col-sm">  
+            <div class="card" style="width: 18rem; margin: 10px;">
+                <img class="card-img-top" src="..." alt="Card image cap">
+                <div class="card-body">
+                    <h5 class="card-title">{{car.make}}</h5>
+                    <p class="card-text">{{car.year}} {{car.make}} {{car.model}}</p>
+                    <a href="#" class="btn btn-primary">Rent this car</a>
+                </div>
+            </div>
+        </div>
+        {%endfor%}
+    </div>
+<div>
+<div>{{start}} {{end}}</div>
+
+<script src="https://cdn.jsdelivr.net/npm/pikaday/pikaday.js"></script>
+<script>
+    
+    var picker = new Pikaday({
+        field: document.getElementById('datepickerStart'),
+        firstDay: 1,
+        minDate: new Date()
+    });
+    var picker2 = new Pikaday({
+        field: document.getElementById('datepickerEnd'),
+        firstDay: 1,
+        minDate: new Date()
+    });
+</script>
+{% endblock %}

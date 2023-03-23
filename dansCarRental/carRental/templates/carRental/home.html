@@ -4,36 +4,37 @@
 
 {% load static %}
 {% block content %}
-{% if user.is_authenticated %}
 
+<form action="{% url 'cars' %}" method="post">
+{% csrf_token %}
 <div class="card-group" style="width: 50rem; margin:auto; margin-top: 100">
     <div class="card">
         <img src="{% static 'profile_icon.jpg' %}" class="card-img-top" alt="..." height="200">
         <div class="card-body">
+            {% if user.is_authenticated%}
             <h5 class="card-title">Welcome {{ user.username }}!</h5>
+            {% else%}
+            <h5 class="card-title">Welcome!</h5>
+            {%endif%}
             <p class="card-text">Let's begin the process of reserving a vehicle.</p>
         </div>
 
     </div>
+
+
     <div class="card">
         <img src="{% static 'three_vehicles_icon.jpg' %}" class="card-img-top" alt="..." height="200">
         <div class="card-body">
             <h5 class="card-title">Vehicle</h5>
             <p class="card-text">Please choose the type of vehicle you would like to reserve.</p>
-            <div class="dropdown">
-                <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown"
-                        aria-expanded="false">
-                    Select Vehicle
-                </button>
-                <ul class="dropdown-menu">
-                    <li><a class="dropdown-item" href="#">Action</a></li>
-                    <li><a class="dropdown-item" href="#">Another action</a></li>
-                    <li><a class="dropdown-item" href="#">Something else here</a></li>
-                </ul>
+            <div class="form-group">
+                <label for="exampleFormControlSelect1">Vehicle Type</label>
+                <select class="form-control" id="exampleFormControlSelect1" name="type">
+                    <option value="0" selected>Low cost</option>
+                    <option value="1">Middle Ground</option>
+                    <option value="2">High Class</option>
+                </select>
             </div>
-        </div>
-        <div class="card-footer">
-            <small class="text-muted">Vehicle Picked:</small>
         </div>
     </div>
     <div class="card">
@@ -41,20 +42,7 @@
         <div class="card-body">
             <h5 class="card-title">Starting Date</h5>
             <p class="card-text">Please choose the starting date for your reservation.</p>
-            <div class="dropdown">
-                <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown"
-                        aria-expanded="false">
-                    Pick Start Date
-                </button>
-                <ul class="dropdown-menu">
-                    <li><a class="dropdown-item" href="#">Action</a></li>
-                    <li><a class="dropdown-item" href="#">Another action</a></li>
-                    <li><a class="dropdown-item" href="#">Something else here</a></li>
-                </ul>
-            </div>
-        </div>
-        <div class="card-footer">
-            <small class="text-muted">Starting Date:</small>
+            <input type="text" id="datepickerStart" name="start" style="width: 80%;" readonly="readonly">
         </div>
     </div>
     <div class="card">
@@ -62,41 +50,41 @@
         <div class="card-body">
             <h5 class="card-title">End Date</h5>
             <p class="card-text">Please choose the ending date for your reservation.</p>
-            <div class="dropdown">
-                <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown"
-                        aria-expanded="false">
-                    Pick Return Date
-                </button>
-                <ul class="dropdown-menu">
-                    <li><a class="dropdown-item" href="#">Action</a></li>
-                    <li><a class="dropdown-item" href="#">Another action</a></li>
-                    <li><a class="dropdown-item" href="#">Something else here</a></li>
-                </ul>
-            </div>
-        </div>
-        <div class="card-footer">
-            <small class="text-muted">Return Date:</small>
+            <input type="text" id="datepickerEnd" name="end" style="width: 80%;" readonly="readonly">
         </div>
     </div>
 </div>
-
-<div class="card" style="width: 25rem; margin:auto; margin-top: 15; align-items:center">
-    <div class="form-check">
-  <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-  <label class="form-check-label" for="flexCheckDefault">
-    Would you like insurance?
-  </label>
+<div style="width: 10rem;margin:auto; margin-top: 15; align-items:center">
+    <input type="submit" class="btn btn-success" style="width:10rem" value="submit"></input>
 </div>
-    <button type="button" class="btn btn-success" style="width:10rem">Reserve</button>
-</div>
-
-{% else %}
-<div class="card card-primary" style="width: 18rem; align-items: center; margin:auto; margin-top:10rem">
-    <div class="card-body">
-        <p>You are not logged in</p>
-        <a class="btn btn-primary center" href="{% url 'login' %}" role="button">Log in</a>
-    </div>
-    <div>
-
+</form>
+{% if noCars %}
+    <h2 class="text-center" style="color: red">No cars for those dates, please choose different dates or a different type</h2>
 {% endif %}
+
+<script src="https://cdn.jsdelivr.net/npm/moment@2.29.4/moment.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/pikaday/pikaday.js"></script>
+<script>
+
+    var picker = new Pikaday({
+        field: document.getElementById('datepickerStart'),
+        format:'YYYY-MM-DD',
+        firstDay: 1,
+        minDate: new Date(),
+        
+    });
+    let today = new Date()
+    let tomorrow = new Date(today)
+    tomorrow.setDate(tomorrow.getDate() + 1)
+    picker.setDate(today)
+    var picker2 = new Pikaday({
+        field: document.getElementById('datepickerEnd'),
+        format:'YYYY-MM-DD',
+        firstDay: 1,
+        minDate: new Date()
+        
+    });
+    picker2.setDate(new Date(tomorrow))
+
+</script>
 {% endblock %}

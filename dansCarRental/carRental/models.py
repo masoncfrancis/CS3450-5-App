@@ -56,7 +56,7 @@ class Vehicle(models.Model):
     model = models.CharField(max_length=20)
     year = models.CharField(max_length=4)
     price = models.IntegerField(choices=TIER)
-    status = models.CharField(max_length=4, choices = STATUS, default='AV')
+    disabled = models.BooleanField(default=False)
 
     def __str__(self) -> str:
         return self.year + ", " + self.make + " " + self.model
@@ -71,10 +71,16 @@ class Vehicle(models.Model):
         self.status = self.STATUS['AV']
 
 class Reservation(models.Model):
+    STATUS = [
+        ('AWAIT','Awaiting'),
+        ('RENT', 'Rented'),
+        ('DIS', 'Returned')
+    ]
     vehicle = models.ForeignKey(Vehicle, on_delete=models.CASCADE)
-    customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
+    customer = models.ForeignKey(User, on_delete=models.CASCADE)
     start = models.DateField()
     end = models.DateField()
+    status = models.CharField(max_length = 10,choices = STATUS, default='AWAIT')
     confirmation_code = models.CharField(max_length=5)
 
 class Complaint(models.Model):

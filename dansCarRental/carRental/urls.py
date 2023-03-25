@@ -5,6 +5,8 @@ from . import views
 urlpatterns = [
     path('accounts/', include('django.contrib.auth.urls')),
     path('cars', views.car_page, name="cars"),
-    path('', TemplateView.as_view(template_name='carRental/home.html'), name='home'),
+    path('rentedCars', views.rented_cars, name="rentedCars"),
+    path('loJack', views.loJack, name="loJack"),
+    path('', views.home, name='home'),
     path('account', TemplateView.as_view(template_name='carRental/account.html'), name='account')
 ]

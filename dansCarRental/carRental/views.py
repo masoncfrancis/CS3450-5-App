@@ -1,6 +1,6 @@
 from django.http import HttpResponse
-from django.shortcuts import render
-from carRental.models import Vehicle, Reservation
+from django.shortcuts import render, redirect
+from carRental.models import Vehicle, Reservation, Manager, Employee
 from datetime import date
 
 # Create your views here.
@@ -37,3 +37,49 @@ def car_page(request):
         
     context = {'cars': cars, start:start, end:end }
     return render(request, 'carRental/cars.html', context)
+
+def home(request):
+    context = {"employee": False}
+    if request.user.is_authenticated:
+        if Manager.objects.filter(user=request.user).exists() or Employee.objects.filter(user=request.user).exists():
+            context["employee"] = True
+    return render(request, 'carRental/home.html', context)
+
+def rented_cars(request):
+    auth = False
+    if request.user.is_authenticated:
+        if Manager.objects.filter(user=request.user).exists() or Employee.objects.filter(user=request.user).exists():
+            auth = True
+
+    if not auth:
+        return HttpResponse("You are not authorized to view this page")
+    
+        
+    context={"employee": True}
+    overdue = Reservation.objects.filter(status="RENT").filter(end__lt=date.today())
+    rented = Reservation.objects.all().filter(status="RENT").filter(end__gte=date.today())
+    disabled = Vehicle.objects.all().filter(disabled=True)
+    context["disabled"] = disabled
+    context["overdue"] = overdue
+    context["rented"] = rented
+    return render(request, 'carRental/rentedCars.html', context)
+
+
+def lojack(request):
+    auth = False
+    if request.user.is_authenticated:
+        if Manager.objects.filter(user=request.user).exists() or Employee.objects.filter(user=request.user).exists():
+            auth = True
+
+    if not auth:
+        return HttpResponse("You are not authorized to view this page")
+    
+
+    if request.method == "POST" and auth:
+        pk = request.POST['pk']
+        vehicle = Vehicle.objects.get(id=pk)
+        vehicle.disabled = True
+        vehicle.save()
+        return redirect('rentedCars')
+    else :
+        return HttpResponse("Error!")

@@ -16,6 +16,9 @@ def car_page(request):
         endDate = date.fromisoformat(end)
     except ValueError:
         return HttpResponse("Error!")
+    
+    if endDate < startDate:
+        return HttpResponse("Error! Invalid Dates")
 
     if (typeOfCar == 0):
         vehicles = Vehicle.objects.filter(price=50)
@@ -29,7 +32,7 @@ def car_page(request):
     cars = []
     for vehicle in vehicles:
         reservations = vehicle.reservation_set.filter(start__range=[startDate, endDate]).filter(end__range=[startDate,endDate])
-        res = vehicle.reservation_set.filter(start__lte=start).filter(end__gte=end)
+        res = vehicle.reservation_set.filter(start__gte=start).filter(end__lte=end)
         if len(reservations) == 0 and len(res) == 0:
             cars.append(vehicle)
         else:

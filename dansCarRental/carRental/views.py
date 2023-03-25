@@ -1,7 +1,9 @@
 from django.http import HttpResponse
 from django.shortcuts import render
-from carRental.models import Vehicle, Reservation
+from carRental.models import Vehicle, Reservation, Customer
 from datetime import date
+from decimal import *
+import pprint
 
 # Create your views here.
 
@@ -37,3 +39,15 @@ def car_page(request):
         
     context = {'cars': cars, start:start, end:end }
     return render(request, 'carRental/cars.html', context)
+
+
+def account_page(request):
+    #pprint.pprint(f"\n*** POST dictionary: {request.POST}\m")
+    new_funds = Decimal(request.POST.get('funds', 0))
+
+    customer_list = Customer.objects.filter(user__username=request.user)
+    customer = customer_list[0]
+    customer.addMoney(new_funds)
+
+    context = {'balance_foo': customer.balance}
+    return render(request, 'carRental/account.html', context)

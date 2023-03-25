@@ -1,55 +1,38 @@
 {% extends 'base.html' %}
 
-{% block title %}Home{% endblock %}
+{% block title %}Account{% endblock %}
 
 {% load static %}
 {% block content %}
 {% if user.is_authenticated %}
 
-
 <div class="container">
     <div class="row g-5" style="margin-top: 100">
       <div class="col-md-7 col-lg-8">
         <h4 class="mb-3">Account Info</h4>
-        <form class="needs-validation" novalidate>
           <div class="row g-3">
 
-              <div class="col-sm-6">
-              <label for="firstName" class="form-label">First name</label>
-              <input type="text" class="form-control" id="firstName" placeholder="{{ user.first_name }}" value="" required>
-              <div class="invalid-feedback">
-                Valid first name is required.
+              <div class="col-12">
+                  <label>Username: {{ user.username }}</label>
               </div>
-            </div>
 
-            <div class="col-sm-6">
-              <label for="lastName" class="form-label">Last name</label>
-              <input type="text" class="form-control" id="lastName" placeholder="{{ user.last_name }}" value="" required>
-              <div class="invalid-feedback">
-                Valid last name is required.
+              <div class="col-12">
+                  <label class="col-2" for="firstName">First Name:</label>
+                  <input class="bg-dark text-white rounded" type="text" id="firstName" placeholder="{{ user.first_name }}">
               </div>
-            </div>
 
-            <div class="col-12">
-              <label for="username" class="form-label">Username</label>
-              <div class="input-group has-validation">
-                <span class="input-group-text">@</span>
-                <input type="text" class="form-control" id="username" placeholder="{{ user.username }}" required>
-              <div class="invalid-feedback">
-                  Your username is required.
-                </div>
+              <div class="col-12">
+                  <label class="col-2" for="lastName">Last Name:</label>
+                  <input class="bg-dark text-white rounded" type="text" id="lastName" placeholder="{{ user.last_name }}">
               </div>
-            </div>
 
-            <div class="col-12">
-              <label for="email" class="form-label">Email</label>
-              <input type="email" class="form-control" id="email" placeholder="dan@gmail.com">
-              <div class="invalid-feedback">
-                Please enter a valid email address for shipping updates.
+
+              <div class="col-12">
+                  <label class="col-2" for="email">Email:</label>
+                  <input class="bg-dark text-white rounded" type="email" id="email" placeholder="dan@gmail.com">
               </div>
-            </div>
 
-            <button class="btn btn-primary" style="margin-top:10" type="submit">Save Any Updated Info</button>
+              <button class="col-4 btn btn-primary" type="submit">Save Any Updated Info</button>
 
           </div>
 
@@ -57,27 +40,37 @@
 
           <h4 class="mb-3">File Complaint</h4>
 
-          <div class="col-12">
-            <label for="complaint_text">Tell us what happened...</label>
-            <textarea class="form-control" id="complaint_text" rows="3"></textarea>
-          </div>
+          <div class="row g-3">
+              <div>
+                  <label>Tell us what happened...</label>
+              </div>
+              <div class="col-12">
+                  <textarea class="bg-dark text-white rounded" id="complaint_text" name="complaint" rows="3"></textarea>
+              </div>
 
-          <button class="btn btn-primary" style="margin-top:10" type="submit">File Complaint</button>
+              <button class="col-4 btn btn-primary" type="submit">File Complaint</button>
+
+          </div>
 
           <hr class="my-4">
 
           <h4 class="mb-3">Balance</h4>
 
-          <div class="col-sm-3">
-              <label>Current Balance: {{ user.balance }}</label>
-              <label for="funds" class="form-label">Amount to Add:</label>
-              <input type="text" class="form-control" id="funds" placeholder="$" value="" required>
-              <div class="invalid-feedback">
-                Valid first name is required.
-              </div>
-            </div>
+          <form action="{% url 'account' %}" method="post">
+              {% csrf_token %}
+              <div class="row g-3">
+                  <div class="col-12">
+                      <label>Current Balance: ${{ balance_foo }}</label>
+                  </div>
+                  <div class="col-12">
+                      <label class="col-2" for="new_funds">Amount to Add:</label>
+                      <input class="bg-dark text-white rounded" type="text" id="new_funds" name="funds">
+                  </div>
 
-            <button class="btn btn-primary" style="margin-top:10" type="submit">Add Funds</button>
+                  <button class="col-4 btn btn-primary" type="submit">Add Funds</button>
+              </div>
+          </form>
+
 
           <hr class="my-4">
 
@@ -106,7 +99,7 @@
             </div>
 
 
-        </form>
+
       </div>
     </div>
 </div>

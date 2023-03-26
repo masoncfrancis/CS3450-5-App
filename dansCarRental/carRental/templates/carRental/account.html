@@ -6,6 +6,8 @@
 {% block content %}
 {% if user.is_authenticated %}
 
+<form action="{% url 'account' %}" method="post">
+{% csrf_token %}
 <div class="container">
     <div class="row g-5" style="margin-top: 100">
       <div class="col-md-7 col-lg-8">
@@ -18,18 +20,18 @@
 
               <div class="col-12">
                   <label class="col-2" for="firstName">First Name:</label>
-                  <input class="bg-dark text-white rounded" type="text" id="firstName" placeholder="{{ user.first_name }}">
+                  <input class="bg-dark text-white rounded" type="text" id="firstName" name="new_first_name" placeholder="{{ user.first_name }}">
               </div>
 
               <div class="col-12">
                   <label class="col-2" for="lastName">Last Name:</label>
-                  <input class="bg-dark text-white rounded" type="text" id="lastName" placeholder="{{ user.last_name }}">
+                  <input class="bg-dark text-white rounded" type="text" id="lastName" name="new_last_name" placeholder="{{ user.last_name }}">
               </div>
 
 
               <div class="col-12">
                   <label class="col-2" for="email">Email:</label>
-                  <input class="bg-dark text-white rounded" type="email" id="email" placeholder="dan@gmail.com">
+                  <input class="bg-dark text-white rounded" type="text" id="email" name="new_email" placeholder="{{ user.email }}">
               </div>
 
               <button class="col-4 btn btn-primary" type="submit">Save Any Updated Info</button>
@@ -56,11 +58,9 @@
 
           <h4 class="mb-3">Balance</h4>
 
-          <form action="{% url 'account' %}" method="post">
-              {% csrf_token %}
               <div class="row g-3">
                   <div class="col-12">
-                      <label>Current Balance: ${{ balance_foo }}</label>
+                      <label>Current Balance: ${{ balance }}</label>
                   </div>
                   <div class="col-12">
                       <label class="col-2" for="new_funds">Amount to Add:</label>
@@ -69,8 +69,6 @@
 
                   <button class="col-4 btn btn-primary" type="submit">Add Funds</button>
               </div>
-          </form>
-
 
           <hr class="my-4">
 
@@ -103,6 +101,8 @@
       </div>
     </div>
 </div>
+</form>
+
 
 {% else %}
     <div class="card card-primary" style="width: 18rem; align-items: center; margin:auto; margin-top:10rem">

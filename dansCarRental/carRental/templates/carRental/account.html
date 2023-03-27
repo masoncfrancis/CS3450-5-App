@@ -20,18 +20,18 @@
 
               <div class="col-12">
                   <label class="col-2" for="firstName">First Name:</label>
-                  <input class="bg-dark text-white rounded" type="text" id="firstName" name="new_first_name" placeholder="{{ user.first_name }}">
+                  <input class="bg-dark text-white rounded" type="text" id="firstName" name="new_first_name" placeholder="{{ first_name }}">
               </div>
 
               <div class="col-12">
                   <label class="col-2" for="lastName">Last Name:</label>
-                  <input class="bg-dark text-white rounded" type="text" id="lastName" name="new_last_name" placeholder="{{ user.last_name }}">
+                  <input class="bg-dark text-white rounded" type="text" id="lastName" name="new_last_name" placeholder="{{ last_name }}">
               </div>
 
 
               <div class="col-12">
                   <label class="col-2" for="email">Email:</label>
-                  <input class="bg-dark text-white rounded" type="text" id="email" name="new_email" placeholder="{{ user.email }}">
+                  <input class="bg-dark text-white rounded" type="text" id="email" name="new_email" placeholder="{{ email }}">
               </div>
 
               <button class="col-4 btn btn-primary" type="submit">Save Any Updated Info</button>
@@ -40,18 +40,34 @@
 
           <hr class="my-4">
 
-          <h4 class="mb-3">File Complaint</h4>
-
           <div class="row g-3">
-              <div>
-                  <label>Tell us what happened...</label>
-              </div>
-              <div class="col-12">
-                  <textarea class="bg-dark text-white rounded" id="complaint_text" name="complaint" rows="3"></textarea>
-              </div>
+              <div class="col-6">
+                  <h4 class="mb-3">File Complaint</h4>
+                  <div style="margin-bottom:10">
+                      <label>Tell us what happened...</label>
+                  </div>
+                  <div>
+                      <textarea class="bg-dark text-white rounded" id="complaint_text" name="complaint" rows="3"></textarea>
+                  </div>
+                  <div style="margin-top:10">
+                      <button class="btn btn-primary" type="submit">File Complaint</button>
+                  </div>
 
-              <button class="col-4 btn btn-primary" type="submit">File Complaint</button>
-
+              </div>
+              <div class="col-6">
+                  <h4 class="mb-3">Active Complaints</h4>
+                  <div class="overflow-auto bg-dark rounded" style="height:200">
+                      {% for complaint in complaints %}
+                      <div style="padding:5">
+                          <h6>Complaint #{{ forloop.counter }}</h6>
+                            <p>
+                              {{ complaint.description }}
+                            </p>
+                          <button class="btn btn-primary btn-sm" type="submit">Delete</button>
+                      </div>
+                      {% endfor %}
+                  </div>
+              </div>
           </div>
 
           <hr class="my-4">
@@ -64,7 +80,7 @@
                   </div>
                   <div class="col-12">
                       <label class="col-2" for="new_funds">Amount to Add:</label>
-                      <input class="bg-dark text-white rounded" type="text" id="new_funds" name="funds">
+                      <input class="bg-dark text-white rounded" type="text" id="new_funds" name="funds" placeholder="">
                   </div>
 
                   <button class="col-4 btn btn-primary" type="submit">Add Funds</button>
@@ -114,4 +130,5 @@
     </div>
 
 {% endif %}
+
 {% endblock %}

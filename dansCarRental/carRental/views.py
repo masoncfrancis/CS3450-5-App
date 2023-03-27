@@ -5,7 +5,6 @@ from datetime import date
 
 # Create your views here.
 
-
 def car_page(request):
     typeOfCar = int(request.POST['type'])
     start = str(request.POST['start'])
@@ -41,14 +40,14 @@ def car_page(request):
 def home(request):
     context = {"employee": False}
     if request.user.is_authenticated:
-        if Manager.objects.filter(user=request.user).exists() or Employee.objects.filter(user=request.user).exists():
+        if Manager.objects.filter(user=request.user).exists() or Employee.objects.filter(user=request.user).exists() or request.user.is_superuser:
             context["employee"] = True
     return render(request, 'carRental/home.html', context)
 
 def rented_cars(request):
     auth = False
     if request.user.is_authenticated:
-        if Manager.objects.filter(user=request.user).exists() or Employee.objects.filter(user=request.user).exists():
+        if Manager.objects.filter(user=request.user).exists() or Employee.objects.filter(user=request.user).exists() or request.user.is_superuser:
             auth = True
 
     if not auth:
@@ -56,8 +55,8 @@ def rented_cars(request):
     
         
     context={"employee": True}
-    overdue = Reservation.objects.filter(status="RENT").filter(end__lt=date.today())
-    rented = Reservation.objects.all().filter(status="RENT").filter(end__gte=date.today())
+    overdue = Reservation.objects.filter(status="RENT").filter(end__lt=date.today()).filter(vehicle__disabled = False)
+    rented = Reservation.objects.all().filter(status="RENT").filter(end__gte=date.today()).filter(vehicle__disabled = False)
     disabled = Vehicle.objects.all().filter(disabled=True)
     context["disabled"] = disabled
     context["overdue"] = overdue
@@ -68,7 +67,7 @@ def rented_cars(request):
 def lojack(request):
     auth = False
     if request.user.is_authenticated:
-        if Manager.objects.filter(user=request.user).exists() or Employee.objects.filter(user=request.user).exists():
+        if Manager.objects.filter(user=request.user).exists() or Employee.objects.filter(user=request.user).exists() or request.user.is_superuser:
             auth = True
 
     if not auth:
@@ -78,7 +77,7 @@ def lojack(request):
     if request.method == "POST" and auth:
         pk = request.POST['pk']
         vehicle = Vehicle.objects.get(id=pk)
-        vehicle.disabled = True
+        vehicle.disabled = not vehicle.disabled
         vehicle.save()
         return redirect('rentedCars')
     else :

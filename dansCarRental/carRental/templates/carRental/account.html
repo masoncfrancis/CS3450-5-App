@@ -1,81 +1,90 @@
 {% extends 'base.html' %}
 
-{% block title %}Home{% endblock %}
+{% block title %}Account{% endblock %}
 
 {% load static %}
 {% block content %}
 {% if user.is_authenticated %}
 
-
+<form action="{% url 'account' %}" method="post">
+{% csrf_token %}
 <div class="container">
     <div class="row g-5" style="margin-top: 100">
       <div class="col-md-7 col-lg-8">
         <h4 class="mb-3">Account Info</h4>
-        <form class="needs-validation" novalidate>
           <div class="row g-3">
 
-              <div class="col-sm-6">
-              <label for="firstName" class="form-label">First name</label>
-              <input type="text" class="form-control" id="firstName" placeholder="First Name" value="" required>
-              <div class="invalid-feedback">
-                Valid first name is required.
+              <div class="col-12">
+                  <label>Username: {{ user.username }}</label>
               </div>
-            </div>
 
-            <div class="col-sm-6">
-              <label for="lastName" class="form-label">Last name</label>
-              <input type="text" class="form-control" id="lastName" placeholder="Last Name" value="" required>
-              <div class="invalid-feedback">
-                Valid last name is required.
+              <div class="col-12">
+                  <label class="col-2" for="firstName">First Name:</label>
+                  <input class="bg-dark text-white rounded" type="text" id="firstName" name="new_first_name" placeholder="{{ first_name }}">
               </div>
-            </div>
 
-            <div class="col-12">
-              <label for="username" class="form-label">Username</label>
-              <div class="input-group has-validation">
-                <span class="input-group-text">@</span>
-                <input type="text" class="form-control" id="username" placeholder="Username" required>
-              <div class="invalid-feedback">
-                  Your username is required.
-                </div>
+              <div class="col-12">
+                  <label class="col-2" for="lastName">Last Name:</label>
+                  <input class="bg-dark text-white rounded" type="text" id="lastName" name="new_last_name" placeholder="{{ last_name }}">
               </div>
-            </div>
 
-            <div class="col-12">
-              <label for="email" class="form-label">Email</label>
-              <input type="email" class="form-control" id="email" placeholder="dan@gmail.com">
-              <div class="invalid-feedback">
-                Please enter a valid email address for shipping updates.
+
+              <div class="col-12">
+                  <label class="col-2" for="email">Email:</label>
+                  <input class="bg-dark text-white rounded" type="text" id="email" name="new_email" placeholder="{{ email }}">
               </div>
-            </div>
 
-            <button class="btn btn-primary" style="margin-top:10" type="submit">Save Any Updated Info</button>
+              <button class="col-4 btn btn-primary" type="submit">Save Any Updated Info</button>
 
           </div>
 
           <hr class="my-4">
 
-          <h4 class="mb-3">File Complaint</h4>
+          <div class="row g-3">
+              <div class="col-6">
+                  <h4 class="mb-3">File Complaint</h4>
+                  <div style="margin-bottom:10">
+                      <label>Tell us what happened...</label>
+                  </div>
+                  <div>
+                      <textarea class="bg-dark text-white rounded" id="complaint_text" name="complaint" rows="3"></textarea>
+                  </div>
+                  <div style="margin-top:10">
+                      <button class="btn btn-primary" type="submit">File Complaint</button>
+                  </div>
 
-          <div class="col-12">
-            <label for="complaint_text">Tell us what happened...</label>
-            <textarea class="form-control" id="complaint_text" rows="3"></textarea>
+              </div>
+              <div class="col-6">
+                  <h4 class="mb-3">Active Complaints</h4>
+                  <div class="overflow-auto bg-dark rounded" style="height:200">
+                      {% for complaint in complaints %}
+                      <div style="padding:5">
+                          <h6>Complaint #{{ forloop.counter }}</h6>
+                            <p>
+                              {{ complaint.description }}
+                            </p>
+                          <button class="btn btn-primary btn-sm" type="submit">Delete</button>
+                      </div>
+                      {% endfor %}
+                  </div>
+              </div>
           </div>
-
-          <button class="btn btn-primary" style="margin-top:10" type="submit">File Complaint</button>
 
           <hr class="my-4">
 
           <h4 class="mb-3">Balance</h4>
 
-          <div class="col-sm-3">
-              <label>Current Balance: $500</label>
-              <label for="balance" class="form-label">Enter New Balance:</label>
-              <input type="text" class="form-control" id="balance" placeholder="$" value="" required>
-              <div class="invalid-feedback">
-                Valid first name is required.
+              <div class="row g-3">
+                  <div class="col-12">
+                      <label>Current Balance: ${{ balance }}</label>
+                  </div>
+                  <div class="col-12">
+                      <label class="col-2" for="new_funds">Amount to Add:</label>
+                      <input class="bg-dark text-white rounded" type="text" id="new_funds" name="funds" placeholder="">
+                  </div>
+
+                  <button class="col-4 btn btn-primary" type="submit">Add Funds</button>
               </div>
-            </div>
 
           <hr class="my-4">
 
@@ -104,10 +113,12 @@
             </div>
 
 
-        </form>
+
       </div>
     </div>
 </div>
+</form>
+
 
 {% else %}
     <div class="card card-primary" style="width: 18rem; align-items: center; margin:auto; margin-top:10rem">
@@ -119,4 +130,5 @@
     </div>
 
 {% endif %}
+
 {% endblock %}

@@ -1,7 +1,10 @@
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
-from carRental.models import Vehicle, Reservation, Manager, Employee
+from carRental.models import Vehicle, Reservation, Customer, Complaint, Manager, Employee
 from datetime import date
+from decimal import *
+import pprint
+from django.contrib.auth.models import User
 
 # Create your views here.
 
@@ -40,12 +43,60 @@ def car_page(request):
     context = {'cars': cars, start:start, end:end }
     return render(request, 'carRental/cars.html', context)
 
+
+def account_page(request):
+    #pprint.pprint(f"\n*** POST dictionary: {request.POST}\m")
+
+    # Filing Complaint and Returning List of Complaints
+    if request.POST.get('complaint') != '':
+        complaint_text = str(request.POST.get('complaint'))
+        complaint = Complaint(user=request.user, description=complaint_text)
+        complaint.save()
+
+    complaints = Complaint.objects.filter(user__username=request.user)
+
+    # Updating User Info
+    new_first_name = str(request.POST.get('new_first_name', ""))
+    new_last_name = str(request.POST.get('new_last_name', ""))
+    new_email = str(request.POST.get('new_email', ""))
+
+    user = User.objects.get(username=request.user.username)
+
+    if new_first_name != "":
+        user.first_name = new_first_name
+        user.save()
+    if new_last_name != "":
+        user.last_name = new_last_name
+        user.save()
+    if new_email != "":
+        user.email = new_email
+        user.save()
+
+
+    # Updating Customer Balance
+    new_funds_form = request.POST.get("funds", 0)
+
+    if new_funds_form == "":
+        new_funds_form = "0"
+
+    new_funds = Decimal(new_funds_form)
+
+    # new_funds = Decimal(request.POST.get('funds', 0))
+    customer_list = Customer.objects.filter(user__username=request.user)
+    customer = customer_list[0]
+    customer.addMoney(new_funds)
+
+    context = {'balance': customer.balance, 'first_name': user.first_name, 'last_name': user.last_name, 'email': user.email, 'complaints': complaints}
+    return render(request, 'carRental/account.html', context)
+
+
 def home(request):
     context = {"employee": False}
     if request.user.is_authenticated:
         if Manager.objects.filter(user=request.user).exists() or Employee.objects.filter(user=request.user).exists() or request.user.is_superuser:
             context["employee"] = True
     return render(request, 'carRental/home.html', context)
+
 
 def rented_cars(request):
     auth = False
@@ -85,3 +136,4 @@ def lojack(request):
         return redirect('rentedCars')
     else :
         return HttpResponse("Error!")
+

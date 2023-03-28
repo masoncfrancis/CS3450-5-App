@@ -5,16 +5,25 @@ from datetime import date
 
 # Create your views here.
 def conf_ver_page(request):
-    
-    c_code = 0
+    c_code = None
     try:
-        c_code = request.POST['c_code']
+        checkingout = int(request.POST['checkout'])
+    except:
+        checkingout = 0
+    try:
+        c_code = int(request.POST['c_code'])
         reservation = Reservation.objects.get(confirmation_code=c_code)
         v_type = reservation.vehicle
     except:
         reservation = None
         v_type = None
-    context = {'c_code': c_code, 'reservation': reservation, 'v_type': v_type}
+    if checkingout == 1:
+        if reservation != None:
+            reservation.checkOut()
+            checkingout = 2
+        else:
+            checkingout = 3
+    context = {'c_code': c_code, 'reservation': reservation, 'v_type': v_type, 'checkingout' : checkingout}
     return render(request, 'carRental/conf_ver.html', context)
 
 

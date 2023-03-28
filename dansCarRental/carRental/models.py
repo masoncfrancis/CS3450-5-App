@@ -82,6 +82,9 @@ class Reservation(models.Model):
     end = models.DateField()
     status = models.CharField(max_length = 10,choices = STATUS, default='AWAIT')
     confirmation_code = models.CharField(max_length=5)
+    def checkOut(self):
+        self.status = 'RENT'
+        self.save()
 
 class Complaint(models.Model):
     date = models.DateTimeField(auto_now_add=True)

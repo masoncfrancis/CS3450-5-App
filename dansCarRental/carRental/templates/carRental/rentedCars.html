@@ -1,0 +1,108 @@
+{% extends 'base.html' %}
+
+{% block title %}Cars{% endblock %}
+
+{% load static %}
+{% block content %}
+<div class="card text-center" style="width: 30rem; align-items: center; margin:auto; margin-top:5rem">
+    <div class="container">
+        {%if not disabled%}
+            <h1 class="text-center">No Currently Disabled Cars</h1>
+        {% else %}
+            <div class="row">
+                <h1 class="text-center">Disabled Cars</h1>
+                {% for vehicle in disabled%}
+                <div class="col-sm">  
+                    <div class="card" style="width: 18rem; margin: 10px;">
+                        <img class="card-img-top" src="..." alt="Card image cap">
+                        <div class="card-body">
+                            <h5 class="card-title">{{vehicle.make}}</h5>
+                            <p class="card-text">{{vehicle.year}} {{vehicle.make}} {{vehicle.model}}</p>
+                            <form id="retreive" method="post" action="{% url 'lojack' %}">
+                                {% csrf_token %}
+                                <input type="hidden" name="pk" value="{{vehicle.pk}}" />
+                                <input type="submit" class="btn btn-success" style="width:10rem" value="Retreive this car"/>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                {%endfor%}
+            </div>
+        {% endif %}
+    </div>
+</div>
+<div class="card text-center" style="width: 30rem; align-items: center; margin:auto; margin-top:5rem">
+    <div class="container">
+        {%if not overdue%}
+            <h1 class="text-center">No Overdue Cars</h1>
+        {% else %}
+            <div class="row">
+                <h1 class="text-center">Overdue Cars</h1>
+                {% for res in overdue%}
+                <div class="col-sm">  
+                    <div class="card" style="width: 18rem; margin: 10px;">
+                        <img class="card-img-top" src="..." alt="Card image cap">
+                        <div class="card-body">
+                            <h5 class="card-title">{{res.vehicle.make}}</h5>
+                            <p class="card-text">{{res.vehicle.year}} {{res.vehicle.make}} {{res.vehicle.model}}</p>
+                            <p class="card-text">Rented To: {{res.customer.username}}</p>
+                            <p class="card-text">Confirmation Code: {{res.confirmation_code}}</p>
+                            <form id="lojack1" method="post" action="{% url 'lojack' %}">
+                                {% csrf_token %}
+                                <input type="hidden" name="pk" value="{{res.vehicle.pk}}" />
+                                <input type="submit" class="btn btn-success" style="width:10rem" value="Lo-Jack This car"/>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                {%endfor%}
+            </div>
+        {% endif %}
+    </div>
+</div>
+<div class="card text-center" style="width: 30rem; align-items: center; margin:auto; margin-top:5rem">
+    <div class="container">
+    {%if not rented%}
+        <h1 class="text-center">No Currently Rented Cars that are not overdue</h1>
+    {% else %}
+        <h1 class="text-center">Rented Cars</h1>
+        <div class="row">
+            {% for res in rented%}
+            <div class="col-sm">  
+                <div class="card" style="width: 18rem; margin: 10px;">
+                    <img class="card-img-top" src="..." alt="Card image cap">
+                    <div class="card-body">
+                        <h5 class="card-title">{{res.vehicle.make}}</h5>
+                        <p class="card-text">{{res.vehicle.year}} {{res.vehicle.make}} {{res.vehicle.model}}</p>
+                        <p class="card-text">Rented To: {{res.customer.username}}</p>
+                        <p class="card-text">Confirmation Code: {{res.confirmation_code}}</p>
+                        <form id="lojack2" method="post" action="{% url 'lojack' %}">
+                            {% csrf_token %}
+                            <input type="hidden" name="pk" value="{{res.vehicle.pk}}" />
+                            <input type="submit" class="btn btn-success" style="width:10rem" value="Lo-Jack This car"/>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            {%endfor%}
+        </div>
+    {% endif %}
+    </div>
+</div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/pikaday/pikaday.js"></script>
+<script>
+    
+    var picker = new Pikaday({
+        field: document.getElementById('datepickerStart'),
+        firstDay: 1,
+        minDate: new Date()
+    });
+    var picker2 = new Pikaday({
+        field: document.getElementById('datepickerEnd'),
+        firstDay: 1,
+        minDate: new Date()
+    });
+</script>
+{% endblock %}

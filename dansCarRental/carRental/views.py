@@ -1,13 +1,12 @@
 from django.http import HttpResponse
-from django.shortcuts import render
-from carRental.models import Vehicle, Reservation, Customer, Complaint
+from django.shortcuts import render, redirect
+from carRental.models import Vehicle, Reservation, Customer, Complaint, Manager, Employee
 from datetime import date
 from decimal import *
 import pprint
 from django.contrib.auth.models import User
 
 # Create your views here.
-
 
 def car_page(request):
     typeOfCar = int(request.POST['type'])
@@ -19,6 +18,9 @@ def car_page(request):
         endDate = date.fromisoformat(end)
     except ValueError:
         return HttpResponse("Error!")
+    
+    if endDate < startDate:
+        return HttpResponse("Error! Invalid Dates")
 
     if (typeOfCar == 0):
         vehicles = Vehicle.objects.filter(price=50)
@@ -32,7 +34,7 @@ def car_page(request):
     cars = []
     for vehicle in vehicles:
         reservations = vehicle.reservation_set.filter(start__range=[startDate, endDate]).filter(end__range=[startDate,endDate])
-        res = vehicle.reservation_set.filter(start__lte=start).filter(end__gte=end)
+        res = vehicle.reservation_set.filter(start__gte=start).filter(end__lte=end)
         if len(reservations) == 0 and len(res) == 0:
             cars.append(vehicle)
         else:
@@ -86,3 +88,52 @@ def account_page(request):
 
     context = {'balance': customer.balance, 'first_name': user.first_name, 'last_name': user.last_name, 'email': user.email, 'complaints': complaints}
     return render(request, 'carRental/account.html', context)
+
+
+def home(request):
+    context = {"employee": False}
+    if request.user.is_authenticated:
+        if Manager.objects.filter(user=request.user).exists() or Employee.objects.filter(user=request.user).exists() or request.user.is_superuser:
+            context["employee"] = True
+    return render(request, 'carRental/home.html', context)
+
+
+def rented_cars(request):
+    auth = False
+    if request.user.is_authenticated:
+        if Manager.objects.filter(user=request.user).exists() or Employee.objects.filter(user=request.user).exists() or request.user.is_superuser:
+            auth = True
+
+    if not auth:
+        return HttpResponse("You are not authorized to view this page")
+    
+        
+    context={"employee": True}
+    overdue = Reservation.objects.filter(status="RENT").filter(end__lt=date.today()).filter(vehicle__disabled = False)
+    rented = Reservation.objects.all().filter(status="RENT").filter(end__gte=date.today()).filter(vehicle__disabled = False)
+    disabled = Vehicle.objects.all().filter(disabled=True)
+    context["disabled"] = disabled
+    context["overdue"] = overdue
+    context["rented"] = rented
+    return render(request, 'carRental/rentedCars.html', context)
+
+
+def lojack(request):
+    auth = False
+    if request.user.is_authenticated:
+        if Manager.objects.filter(user=request.user).exists() or Employee.objects.filter(user=request.user).exists() or request.user.is_superuser:
+            auth = True
+
+    if not auth:
+        return HttpResponse("You are not authorized to view this page")
+    
+
+    if request.method == "POST" and auth:
+        pk = request.POST['pk']
+        vehicle = Vehicle.objects.get(id=pk)
+        vehicle.disabled = not vehicle.disabled
+        vehicle.save()
+        return redirect('rentedCars')
+    else :
+        return HttpResponse("Error!")
+

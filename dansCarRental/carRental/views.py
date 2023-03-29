@@ -44,6 +44,10 @@ def car_page(request):
     return render(request, 'carRental/cars.html', context)
 
 
+def checkout(request):
+    pass
+
+
 def account_page(request):
     #pprint.pprint(f"\n*** POST dictionary: {request.POST}\m")
 

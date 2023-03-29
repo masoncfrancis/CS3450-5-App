@@ -6,18 +6,18 @@
 {% block content %}
 <form method="post">
 {% csrf_token %}
-<div class="card-group" style="width: 50rem; margin:auto; margin-top: 100">
-    <div class="card">
-        <img src="{% static 'calendar_start_icon.jpg' %}" class="card-img-top" alt="..." height="200">
-        <div class="card-body">
-            <h5 class="card-title">Starting Date</h5>
-            <p class="card-text">Please choose the starting date for your reservation.</p>
-            <input type="text" id="datepickerStart" name="start" style="width: 80%;" readonly="readonly">
+<div class="container">
+    <div class="card-group" style="width: 50rem; margin:auto; margin-top: 100">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Starting Date</h5>
+                <input type="text" id="datepickerStart" name="start" style="width: 80%;" value="{{ startDate }}" disabled>
+            </div>
         </div>
     </div>
 </div>
 <div style="width: 10rem; margin:auto; margin-top: 15; align-items:center">
-    <input type="submit" class="btn btn-success" style="width:10rem" value="submit"></input>
+    <button type="submit" class="btn btn-success" style="width:10rem">Make Reservation</button>
 </div>
 </form>
 {% endblock %}

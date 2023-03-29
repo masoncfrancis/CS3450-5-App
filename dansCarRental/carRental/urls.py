@@ -9,4 +9,5 @@ urlpatterns = [
     path('cars', views.car_page, name="cars"),
     path('checkout', TemplateView.as_view(template_name='carRental/checkout.html'), name='checkout'),
     path('loJack', views.lojack, name="lojack"),
+    path('rentedCars', views.rented_cars, name="rentedCars"),
 ]

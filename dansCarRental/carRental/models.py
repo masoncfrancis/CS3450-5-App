@@ -63,12 +63,7 @@ class Vehicle(models.Model):
 
     def getStatus(self) -> STATUS:
         return self.STATUS[self.status]
-    
-    def pickUp():
-        self.status = self.STATUS['RENT']
-    
-    def returnVehicle():
-        self.status = self.STATUS['AV']
+
 
 class Reservation(models.Model):
     STATUS = [
@@ -85,6 +80,12 @@ class Reservation(models.Model):
     def checkOut(self):
         self.status = 'RENT'
         self.save()
+
+    
+    def returnVehicle(self):
+        self.vehicle.status = 'AV'
+        self.vehicle.save()
+        self.delete()
 
 class Complaint(models.Model):
     date = models.DateTimeField(auto_now_add=True)

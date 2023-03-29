@@ -26,6 +26,12 @@ def conf_ver_page(request):
             checkingout = 2
         else:
             checkingout = 3
+    elif checkingout == 4:
+        if reservation != None:
+            reservation.returnVehicle()
+            checkingout = 5
+        else:
+            checkingout = 3
     context = {'c_code': c_code, 'reservation': reservation, 'v_type': v_type, 'checkingout' : checkingout}
     return render(request, 'carRental/conf_ver.html', context)
 

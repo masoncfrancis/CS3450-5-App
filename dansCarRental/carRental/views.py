@@ -44,8 +44,9 @@ def car_page(request):
     return render(request, 'carRental/cars.html', context)
 
 
-def checkout(request):
-    pass
+def checkout(request, car, startDate, endDate):
+    context = {'car': car, 'startDate': startDate, 'endDate': endDate}
+    return render(request, 'carRental/checkout.html', context)
 
 
 def account_page(request):

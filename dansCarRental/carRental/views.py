@@ -5,16 +5,22 @@ from datetime import date
 from decimal import *
 import pprint
 from django.contrib.auth.models import User
+import uuid 
 
 # Create your views here.
 def conf_ver_page(request):
+    auth = False
+    if request.user.is_authenticated:
+        if Manager.objects.filter(user=request.user).exists() or Employee.objects.filter(user=request.user).exists() or request.user.is_superuser:
+            auth = True
+
     c_code = None
     try:
         checkingout = int(request.POST['checkout'])
     except:
         checkingout = 0
     try:
-        c_code = int(request.POST['c_code'])
+        c_code = str(request.POST['c_code'])
         reservation = Reservation.objects.get(confirmation_code=c_code)
         v_type = reservation.vehicle
     except:
@@ -32,10 +38,15 @@ def conf_ver_page(request):
             checkingout = 5
         else:
             checkingout = 3
-    context = {'c_code': c_code, 'reservation': reservation, 'v_type': v_type, 'checkingout' : checkingout}
+    context = {'c_code': c_code, 'reservation': reservation, 'v_type': v_type, 'checkingout' : checkingout, 'employee': auth}
     return render(request, 'carRental/conf_ver.html', context)
 
 def car_page(request):
+    auth = False
+    if request.user.is_authenticated:
+        if Manager.objects.filter(user=request.user).exists() or Employee.objects.filter(user=request.user).exists() or request.user.is_superuser:
+            auth = True
+
     typeOfCar = int(request.POST['type'])
     start = str(request.POST['start'])
     end = str(request.POST['end'])
@@ -67,18 +78,27 @@ def car_page(request):
         else:
             continue
         
-    context = {'cars': cars, 'start': start, 'end': end}
+    context = {'cars': cars, 'start': start, 'end': end, 'employee': auth}
     return render(request, 'carRental/cars.html', context)
 
 
 def checkout(request, car, startDate, endDate):
+    auth = False
+    if request.user.is_authenticated:
+        if Manager.objects.filter(user=request.user).exists() or Employee.objects.filter(user=request.user).exists() or request.user.is_superuser:
+            auth = True
     carObj = Vehicle.objects.get(id__exact=car)
     carName = f"{carObj.year} {carObj.make} {carObj.model}"
 
-    context = {'carId': car, 'carName': carName, 'carPrice': carObj.price,'startDate': startDate, 'endDate': endDate}
+    context = {'carId': car, 'carName': carName, 'carPrice': carObj.price,'startDate': startDate, 'endDate': endDate, 'employee': auth}
     return render(request, 'carRental/checkout.html', context)
 
 def complete(request):
+    auth = False
+    if request.user.is_authenticated:
+        if Manager.objects.filter(user=request.user).exists() or Employee.objects.filter(user=request.user).exists() or request.user.is_superuser:
+            auth = True
+
     sufficientFunds = True
 
     carObj = Vehicle.objects.get(id__exact=request.POST['carId'])
@@ -93,7 +113,10 @@ def complete(request):
     if custObj.balance < totalCost:  # check to make sure customer has enough money
         sufficientFunds = False
 
-    reservation = Reservation(vehicle=carObj, customer=request.user, start=startDate, end=endDate, insurance=insurance)
+
+    conformation = uuid.uuid4().hex[:6].upper()
+
+    reservation = Reservation(vehicle=carObj, customer=request.user, start=startDate, end=endDate, insurance=insurance, confirmation_code=conformation)
     if sufficientFunds:
         reservation.save()
         custObj.balance -= totalCost
@@ -106,12 +129,20 @@ def complete(request):
         'carName': carName,
         'startDate': startDate,
         'endDate': endDate,
-        'remainingBalance': custObj.balance
+        'remainingBalance': custObj.balance,
+        'conformation' : conformation,
+        'employee': auth
                }
     return render(request, 'carRental/complete.html', context)
 
 
 def account_page(request):
+
+    auth = False
+    if request.user.is_authenticated:
+        if Manager.objects.filter(user=request.user).exists() or Employee.objects.filter(user=request.user).exists() or request.user.is_superuser:
+            auth = True
+
     #pprint.pprint(f"\n*** POST dictionary: {request.POST}\m")
 
     # Filing Complaint and Returning List of Complaints
@@ -153,7 +184,7 @@ def account_page(request):
     customer = customer_list[0]
     customer.addMoney(new_funds)
 
-    context = {'balance': customer.balance, 'first_name': user.first_name, 'last_name': user.last_name, 'email': user.email, 'complaints': complaints}
+    context = {'balance': customer.balance, 'first_name': user.first_name, 'last_name': user.last_name, 'email': user.email, 'complaints': complaints, 'employee':auth}
     return render(request, 'carRental/account.html', context)
 
 

@@ -30,7 +30,7 @@
                     <form method="post">
                       {% csrf_token %}
                       <input type="hidden" id="c_code" name="c_code" value="{{ c_code }}">
-                      {% if reservation.status == 'AV' %}
+                      {% if reservation.status == 'AWAIT' %}
                       <input type="hidden" id="checkout" name="checkout" value="1">
                       <button class="btn btn-primary" style="margin-top:10" type="submit">Check Out Vehicle</button>
                       {% else %}
@@ -48,7 +48,7 @@
         <p>No reservation found for {{ c_code }}</p>
         {% endif %}
         {% csrf_token %}
-        <input id="c_code" type="number" name="c_code">
+        <input id="c_code" type="string" name="c_code">
         <button type="submit">Check for reservation</button>
       </form>
       {% endif %}

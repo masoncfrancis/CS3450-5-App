@@ -75,7 +75,7 @@ def checkout(request, car, startDate, endDate):
     carObj = Vehicle.objects.get(id__exact=car)
     carName = f"{carObj.year} {carObj.make} {carObj.model}"
 
-    context = {'carId': car, 'carName': carName, 'startDate': startDate, 'endDate': endDate}
+    context = {'carId': car, 'carName': carName, 'carPrice': carObj.price,'startDate': startDate, 'endDate': endDate}
     return render(request, 'carRental/checkout.html', context)
 
 

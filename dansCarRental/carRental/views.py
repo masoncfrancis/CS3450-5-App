@@ -67,7 +67,7 @@ def car_page(request):
         else:
             continue
         
-    context = {'cars': cars, start:start, end:end }
+    context = {'cars': cars, 'start': start, 'end': end}
     return render(request, 'carRental/cars.html', context)
 
 

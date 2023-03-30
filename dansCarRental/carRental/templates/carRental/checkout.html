@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block title %}Home{% endblock %}
+
+{% load static %}
+{% block content %}
+<form method="post">
+{% csrf_token %}
+<div class="container">
+    <div class="card-group" style="width: 50rem; margin:auto; margin-top: 100">
+        <div class="card">
+            <div class="card-body">
+                <h3 class="card-title">Checkout</h5>
+                <h5>Car: something here</h5>
+                <h5>Start Date: {{startDate}}</h5>
+                <h5>End Date: {{endDate}}</h5>
+            </div>
+        </div>
+    </div>
+</div>
+<div style="width: 10rem; margin:auto; margin-top: 15; align-items:center">
+    <button type="submit" class="btn btn-success" style="width:10rem">Make Reservation</button>
+</div>
+</form>
+{% endblock %}

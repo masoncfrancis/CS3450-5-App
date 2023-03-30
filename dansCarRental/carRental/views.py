@@ -71,6 +71,11 @@ def car_page(request):
     return render(request, 'carRental/cars.html', context)
 
 
+def checkout(request, car, startDate, endDate):
+    context = {'car': car, 'startDate': startDate, 'endDate': endDate}
+    return render(request, 'carRental/checkout.html', context)
+
+
 def account_page(request):
     #pprint.pprint(f"\n*** POST dictionary: {request.POST}\m")
 

@@ -67,13 +67,48 @@ def car_page(request):
         else:
             continue
         
-    context = {'cars': cars, start:start, end:end }
+    context = {'cars': cars, 'start': start, 'end': end}
     return render(request, 'carRental/cars.html', context)
 
 
 def checkout(request, car, startDate, endDate):
-    context = {'car': car, 'startDate': startDate, 'endDate': endDate}
+    carObj = Vehicle.objects.get(id__exact=car)
+    carName = f"{carObj.year} {carObj.make} {carObj.model}"
+
+    context = {'carId': car, 'carName': carName, 'carPrice': carObj.price,'startDate': startDate, 'endDate': endDate}
     return render(request, 'carRental/checkout.html', context)
+
+def complete(request):
+    sufficientFunds = True
+
+    carObj = Vehicle.objects.get(id__exact=request.POST['carId'])
+    carName = f"{carObj.year} {carObj.make} {carObj.model}"
+    custObj = Customer.objects.get(user=request.user)
+    custId = str(request.user.id)
+    startDate = request.POST['startDate']
+    endDate = request.POST['endDate']
+    insurance = "insurance" in request.POST
+    totalCost = carObj.price + 5 if insurance else carObj.price  # computing price for insurance
+
+    if custObj.balance < totalCost:  # check to make sure customer has enough money
+        sufficientFunds = False
+
+    reservation = Reservation(vehicle=carObj, customer=request.user, start=startDate, end=endDate, insurance=insurance)
+    if sufficientFunds:
+        reservation.save()
+        custObj.balance -= totalCost
+        custObj.save()
+
+    context = {
+        'sufficientFunds': sufficientFunds,
+        'reservation': reservation,
+        'totalCost': totalCost,
+        'carName': carName,
+        'startDate': startDate,
+        'endDate': endDate,
+        'remainingBalance': custObj.balance
+               }
+    return render(request, 'carRental/complete.html', context)
 
 
 def account_page(request):

@@ -75,6 +75,7 @@ class Reservation(models.Model):
     customer = models.ForeignKey(User, on_delete=models.CASCADE)
     start = models.DateField()
     end = models.DateField()
+    insurance = models.BooleanField(default=False)
     status = models.CharField(max_length = 10,choices = STATUS, default='AWAIT')
     confirmation_code = models.CharField(max_length=5)
     def checkOut(self):

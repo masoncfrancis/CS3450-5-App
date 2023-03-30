@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+
+{% block title %}Verify Code{% endblock %}
+
+{% load static %}
+{% block content %}
+<div class="card text-center" style="width: 30rem; align-items: center; margin:auto; margin-top:10rem">
+    <img id="delicate" src="{% static 'logo.jpg' %}" class="card-img-top" alt="delicate" draggable="false"/>
+    <div class ="card-body">
+      {% if checkingout == 2 %}
+      <div class="card" style="margin-bottom:15px">
+        <p>Successfully checked out reservation for {{ c_code }}</p>
+      </div>
+      {% elif checkingout == 3 %}
+      <div class="card" style="margin-bottom:15px">
+        <p>Error checking out reservation for {{ c_code }}</p>
+      </div>
+      {% elif checkingout == 5 %}
+      <div class="card" style="margin-bottom:15px">
+        <p>Vehicle returned!</p>
+      </div>
+      {% elif reservation %}
+      <div class="card" style="margin-bottom:15px">
+        <div class="card text-center">
+            <div class="card-block">
+            <p>Vehicle Type: {{ reservation.vehicle }}</p>
+            <p>Start Date: {{ reservation.start }}</p>
+            <p>End Date: {{ reservation.end }}</p>
+                <div class="card-footer">
+                    <form method="post">
+                      {% csrf_token %}
+                      <input type="hidden" id="c_code" name="c_code" value="{{ c_code }}">
+                      {% if reservation.status == 'AV' %}
+                      <input type="hidden" id="checkout" name="checkout" value="1">
+                      <button class="btn btn-primary" style="margin-top:10" type="submit">Check Out Vehicle</button>
+                      {% else %}
+                      <input type="hidden" id="checkout" name="checkout" value="4">
+                      <button class="btn btn-primary" style="margin-top:10" type="submit">Return Vehicle</button>
+                      {% endif %}
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+      {% else %}
+      <form method="post">
+        {% if c_code != None %}
+        <p>No reservation found for {{ c_code }}</p>
+        {% endif %}
+        {% csrf_token %}
+        <input id="c_code" type="number" name="c_code">
+        <button type="submit">Check for reservation</button>
+      </form>
+      {% endif %}
+    </div>
+  </div>
+{% endblock %}

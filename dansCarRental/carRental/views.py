@@ -7,6 +7,33 @@ import pprint
 from django.contrib.auth.models import User
 
 # Create your views here.
+def conf_ver_page(request):
+    c_code = None
+    try:
+        checkingout = int(request.POST['checkout'])
+    except:
+        checkingout = 0
+    try:
+        c_code = int(request.POST['c_code'])
+        reservation = Reservation.objects.get(confirmation_code=c_code)
+        v_type = reservation.vehicle
+    except:
+        reservation = None
+        v_type = None
+    if checkingout == 1:
+        if reservation != None:
+            reservation.checkOut()
+            checkingout = 2
+        else:
+            checkingout = 3
+    elif checkingout == 4:
+        if reservation != None:
+            reservation.returnVehicle()
+            checkingout = 5
+        else:
+            checkingout = 3
+    context = {'c_code': c_code, 'reservation': reservation, 'v_type': v_type, 'checkingout' : checkingout}
+    return render(request, 'carRental/conf_ver.html', context)
 
 def car_page(request):
     typeOfCar = int(request.POST['type'])

@@ -18,11 +18,21 @@
                             <h6>End Date: {{ endDate }}</h6>
                             <input type="hidden" value="{{ endDate }}" name="endDate">
                             <div class="form-check">
-                                <input class="form-check-input" type="checkbox" id="insuranceCheck" name="insurance">
+                                <input class="form-check-input" type="checkbox" id="insuranceCheck" name="insurance" onchange="computeTotalPrice()">
                                 <label class="form-check-label" for="insuranceCheck">Add Insurance for $5?</label>
                             </div>
                             <br>
-                            <h5>Total: ${{ carPrice }}</h5>
+                            <h5 id="totalLabel">Total: ${{ carPrice }}</h5>
+                            <script>
+                                function computeTotalPrice() {
+                                    let totalPrice = {{ carPrice }}
+                                    const checkbox = document.getElementById('insuranceCheck');
+                                    if (checkbox.checked == true) {
+                                        totalPrice = totalPrice + 5;
+                                    }
+                                    document.getElementById('totalLabel').innerHTML = "Total: $" + totalPrice;
+                                }
+                            </script>
                     </div>
                 </div>
             </div>

@@ -4,22 +4,29 @@
 
 {% load static %}
 {% block content %}
-<form method="post">
-{% csrf_token %}
-<div class="container">
-    <div class="card-group" style="width: 50rem; margin:auto; margin-top: 100">
-        <div class="card">
-            <div class="card-body">
-                <h3 class="card-title">Checkout</h5>
-                <h5>Car: something here</h5>
-                <h5>Start Date: {{startDate}}</h5>
-                <h5>End Date: {{endDate}}</h5>
+    <form method="post">
+        {% csrf_token %}
+        <div class="container">
+            <div class="card-group" style="width: 50rem; margin:auto; margin-top: 100">
+                <div class="card">
+                    <div class="card-body">
+                        <h3 class="card-title">Checkout</h5>
+                            <h6>Car: {{ carName }}</h6>
+                            <input type="hidden" value="{{ carId }}" name="carId">
+                            <h6>Start Date: {{ startDate }}</h6>
+                            <input type="hidden" value="{{ startDate }}" name="startDate">
+                            <h6>End Date: {{ endDate }}</h6>
+                            <input type="hidden" value="{{ endDate }}" name="endDate">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="insuranceCheck" name="insurance">
+                                <label class="form-check-label" for="insuranceCheck">Add Insurance?</label>
+                            </div>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
-</div>
-<div style="width: 10rem; margin:auto; margin-top: 15; align-items:center">
-    <button type="submit" class="btn btn-success" style="width:10rem">Make Reservation</button>
-</div>
-</form>
+        <div style="width: 10rem; margin:auto; margin-top: 15; align-items:center">
+            <button type="submit" class="btn btn-success" style="width:10rem">Make Reservation</button>
+        </div>
+    </form>
 {% endblock %}

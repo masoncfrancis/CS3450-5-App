@@ -6,29 +6,27 @@
 {% block content %}
         {% csrf_token %}
         <div class="container">
-            <div class="card-group" style="width: 15rem; margin:auto; margin-top: 100">
+            <div class="card-group" style="width: 40rem; margin:auto; margin-top: 100">
                 <div class="card">
                     <div class="card-body">
-                        {% if success and sufficientFunds %}
+                        {% if sufficientFunds %}
                         <h3 class="card-title">Reservation Successful!</h3>
                             <h5>Order Number: {{ reservation.pk }}</h5>
-                        {% elif success and not sufficientFunds %}
-                        <h3 class="card-title">Reservation Failed - Insufficient Funds</h3>
                         {% else %}
-                        <h3 class="card-title">Reservation Failed - Internal Error</h3>
+                        <h3 class="card-title">Reservation Failed - Insufficient Funds</h3>
                         {% endif %}
                             <h6>Car: {{ carName }}</h6>
                             <h6>Start Date: {{ startDate }}</h6>
                             <h6>End Date: {{ endDate }}</h6>
                             {% if insurance %}
                             <h6>Insurance: Yes</h6>
-                            <br>
-                            <h5>Total: ${{ carPrice + 5 }}</h5>
                             {% else %}
                             <h6>Insurance: No</h6>
-                            <br>
-                            <h5>Total: ${{ carPrice }}</h5>
                             {% endif %}
+                            <br>
+                            <h5>Total: ${{ totalCost }}</h5>
+                            <h6>Remaining Balance: ${{ remainingBalance }}</h6>
+
                     </div>
                 </div>
             </div>

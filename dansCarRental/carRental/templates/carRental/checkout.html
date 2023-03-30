@@ -1,10 +1,10 @@
 {% extends 'base.html' %}
 
-{% block title %}Home{% endblock %}
+{% block title %}Checkout{% endblock %}
 
 {% load static %}
 {% block content %}
-    <form method="post">
+    <form method="post" action="{% url 'complete' %}">
         {% csrf_token %}
         <div class="container">
             <div class="card-group" style="width: 15rem; margin:auto; margin-top: 100">
@@ -19,7 +19,7 @@
                             <input type="hidden" value="{{ endDate }}" name="endDate">
                             <div class="form-check">
                                 <input class="form-check-input" type="checkbox" id="insuranceCheck" name="insurance">
-                                <label class="form-check-label" for="insuranceCheck">Add Insurance?</label>
+                                <label class="form-check-label" for="insuranceCheck">Add Insurance for $5?</label>
                             </div>
                             <br>
                             <h5>Total: ${{ carPrice }}</h5>

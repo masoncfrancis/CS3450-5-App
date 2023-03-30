@@ -96,8 +96,8 @@ def complete(request):
         success = False
         sufficientFunds = False
 
-    reservation = Reservation(vehicle=carObj, customer=custObj, start=startDate, end=endDate)
-    if sufficientFunds:
+    reservation = Reservation(vehicle=carObj, customer=custObj, start=startDate, end=endDate, insurance=insurance)
+    if sufficientFunds and success:
         reservation.save()
 
     context = {'success': success, 'sufficientFunds': sufficientFunds, 'reservation': reservation}

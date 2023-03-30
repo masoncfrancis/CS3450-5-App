@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{% block title %}Home{% endblock %}
+{% block title %}Complete Reservation{% endblock %}
 
 {% load static %}
 {% block content %}
@@ -9,19 +9,26 @@
             <div class="card-group" style="width: 15rem; margin:auto; margin-top: 100">
                 <div class="card">
                     <div class="card-body">
-                        <h3 class="card-title">Checkout</h3>
+                        {% if success and sufficientFunds %}
+                        <h3 class="card-title">Reservation Successful!</h3>
+                            <h5>Order Number: {{ reservation.pk }}</h5>
+                        {% elif success and not sufficientFunds %}
+                        <h3 class="card-title">Reservation Failed - Insufficient Funds</h3>
+                        {% else %}
+                        <h3 class="card-title">Reservation Failed - Internal Error</h3>
+                        {% endif %}
                             <h6>Car: {{ carName }}</h6>
-                            <input type="hidden" value="{{ carId }}" name="carId">
                             <h6>Start Date: {{ startDate }}</h6>
-                            <input type="hidden" value="{{ startDate }}" name="startDate">
                             <h6>End Date: {{ endDate }}</h6>
-                            <input type="hidden" value="{{ endDate }}" name="endDate">
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" id="insuranceCheck" name="insurance">
-                                <label class="form-check-label" for="insuranceCheck">Add Insurance?</label>
-                            </div>
+                            {% if insurance %}
+                            <h6>Insurance: Yes</h6>
+                            <br>
+                            <h5>Total: ${{ carPrice + 5 }}</h5>
+                            {% else %}
+                            <h6>Insurance: No</h6>
                             <br>
                             <h5>Total: ${{ carPrice }}</h5>
+                            {% endif %}
                     </div>
                 </div>
             </div>

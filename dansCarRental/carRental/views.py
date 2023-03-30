@@ -79,7 +79,29 @@ def checkout(request, car, startDate, endDate):
     return render(request, 'carRental/checkout.html', context)
 
 def complete(request):
-    pass
+    success = True
+    sufficientFunds = True
+
+    carObj = Vehicle.objects.get(id__exact=request.POST['carId'])
+    custObj = request.user
+    custId = str(request.user.id)
+    startDate = request.POST['startDate']
+    endDate = request.POST['endDate']
+    insurance = request.POST['insurance'] == 'on'
+    if carObj.status == 'RENT':  # checking if car is already being rented by someone else
+        success = False
+    totalCost = carObj.price + 5 if insurance else carObj.price  # computing price for insurance
+
+    if custId.balance < totalCost:  # check to make sure customer has enough money
+        success = False
+        sufficientFunds = False
+
+    reservation = Reservation(vehicle=carObj, customer=custObj, start=startDate, end=endDate)
+    if sufficientFunds:
+        reservation.save()
+
+    context = {'success': success, 'sufficientFunds': sufficientFunds, 'reservation': reservation}
+    return render(request, 'carRental/complete.html', context)
 
 
 def account_page(request):

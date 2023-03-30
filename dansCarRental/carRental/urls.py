@@ -11,6 +11,7 @@ urlpatterns = [
     # path('account', TemplateView.as_view(template_name='carRental/account.html'), name='account'),
     path('confirm_code', views.conf_ver_page, name="confirm_code"),
     path('checkout/<int:car>/<str:startDate>/<str:endDate>', views.checkout, name='checkout'),
+    path('complete', views.complete, name='complete'),
     path('loJack', views.lojack, name="lojack"),
     path('rentedCars', views.rented_cars, name="rentedCars"),
 ]

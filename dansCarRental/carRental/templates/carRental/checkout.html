@@ -7,10 +7,10 @@
     <form method="post">
         {% csrf_token %}
         <div class="container">
-            <div class="card-group" style="width: 50rem; margin:auto; margin-top: 100">
+            <div class="card-group" style="width: 15rem; margin:auto; margin-top: 100">
                 <div class="card">
                     <div class="card-body">
-                        <h3 class="card-title">Checkout</h5>
+                        <h3 class="card-title">Checkout</h3>
                             <h6>Car: {{ carName }}</h6>
                             <input type="hidden" value="{{ carId }}" name="carId">
                             <h6>Start Date: {{ startDate }}</h6>

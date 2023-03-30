@@ -77,7 +77,7 @@ class Reservation(models.Model):
     end = models.DateField()
     insurance = models.BooleanField(default=False)
     status = models.CharField(max_length = 10,choices = STATUS, default='AWAIT')
-    confirmation_code = models.CharField(max_length=5)
+    confirmation_code = models.CharField(max_length=5, unique=True)
     def checkOut(self):
         self.status = 'RENT'
         self.save()

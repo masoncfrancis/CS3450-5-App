@@ -184,7 +184,11 @@ def account_page(request):
     customer = customer_list[0]
     customer.addMoney(new_funds)
 
-    context = {'balance': customer.balance, 'first_name': user.first_name, 'last_name': user.last_name, 'email': user.email, 'complaints': complaints, 'employee':auth}
+    # Returning reservations associated with customer
+    user_reservations = Reservation.objects.filter(customer=request.user)
+
+
+    context = {'balance': customer.balance, 'first_name': user.first_name, 'last_name': user.last_name, 'email': user.email, 'complaints': complaints, 'employee':auth, 'reservations': user_reservations}
     return render(request, 'carRental/account.html', context)
 
 

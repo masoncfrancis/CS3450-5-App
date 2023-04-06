@@ -88,29 +88,46 @@
 
           <hr class="my-4">
 
-          <h4 class="mb-3">Active Reservations</h4>
+          <h4 class="mb-3">Real Active Reservations</h4>
 
-            <div class="container">
-            <div class="card-deck">
-                {% with data="12345" %}
-                {% for i in data %}
-                <div class="card" style="margin-bottom:15px">
-                    <div class="card text-center">
-                        <div class="card-block">
-                        <h4 class="card-title">Car Reservation ID: {{ i }}</h4>
-                        <p>Vehicle Type:</p>
-                        <p>Start Date:</p>
-                        <p>End Date:</p>
-                            <div class="card-footer">
-                                <button class="btn btn-primary" style="margin-top:10" type="submit">Return Vehicle</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                {% endfor %}
-                {% endwith %}
-            </div>
-            </div>
+          <div class="container">
+              <div class="card-deck">
+                  {% for reservation in reservations %}
+                  <div class="card" style="margin-bottom:15px">
+                      <h4 class="card-title" style="text-align: center;">Car Reservation</h4>
+                      <div class="row">
+                          <div class="col-sm-6">
+                              <div class="card text-center">
+                                  <div class="card-block">
+                                      <h5 class="card-title">Vehicle Info</h5>
+                                      <p>Vehicle Make: {{ reservation.vehicle.make }}</p>
+                                      <p>Vehicle Model: {{ reservation.vehicle.model }}</p>
+                                      <p>Vehicle Year: {{ reservation.vehicle.year }}</p>
+                                  </div>
+                              </div>
+                          </div>
+                          <div class="col-sm-6">
+                              <div class="card text-center">
+                                  <div class="card-block">
+                                      <h5 class="card-title">Reservation Info</h5>
+                                      <p>Confirmation Code: {{ reservation.confirmation_code }}</p>
+                                      <p>Start Date: {{ reservation.start }}</p>
+                                      <p>End Date: {{ reservation.end }}</p>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                      <div class="card-footer" style="margin: auto;">
+                          <button class="btn btn-primary" style="margin-top:10;" type="submit">
+                              Return
+                              Vehicle
+                          </button>
+                      </div>
+                  </div>
+                  {% endfor %}
+              </div>
+
+          </div>
 
 
 

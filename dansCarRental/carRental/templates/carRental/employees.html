@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+
+{% block title %}Employees{% endblock %}
+
+{% load static %}
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="card" style="width: 100%; margin: 10px;">
+            <div class="card-body" style="display:flex; justify-content: space-between;">
+                <div style="display:inline-block;">
+                    <h1 > Manage Employees</h1>
+                   <a href="../accounts/signupEmployee/">Click to add employee</a>
+                    {% if error %}
+                     <h5 style="color: red;">{{error}}</h5>
+                    {% endif %}
+                </div>
+                <h2 style="display:inline-block;"> Your funds: <br /> {{balance}}</h2>
+                {% if balance < payAll%}
+                <h5 style="display:inline-block;">Insuffecient funds to pay all employees<br/>Amount owed: $200</h5>
+                {% else %}
+                <form action="{% url 'employees' %}" method="post">
+                    {% csrf_token %}
+                    <input type="hidden" id="PayAll" name="PayAll" value="True">
+                    <button class="btn btn-primary" style="display:inline-block;" type="submit">Pay All Employees<br/> ${{payAll}}</button>
+                </form>
+                {% endif %}
+            </div>
+        </div>
+        {% for employee in employees %}
+        <div class="card" style="width: 100%; margin: 10px;">
+            <div class="card-body" style="display:flex; justify-content: space-between;">
+                <div><h3> {{employee.user.username}}</h3><h4> {{employee.hours}} hours @ ${{employee.rate}} </h4></div>
+                <div style="display:flex; gap: 20px;">
+
+                    {% if balance < employee.getAmountOwed %}
+                    <h5 style="display:inline-block;">Insuffecient funds to pay {{employee.user.username}}<br/>Amount owed: ${{employee.getAmountOwed}}</h5>
+                    {% else %}
+                    <form action="{% url 'employees' %}" method="post">
+                        {% csrf_token %}
+                        <input type="hidden" id="payEmployee" name="payEmployee" value="{{employee.pk}}">
+                        <button class="btn btn-primary" style="display:inline-block;" type="submit">Pay {{employee.user.username}}<br/> ${{employee.getAmountOwed}}</button>
+                    </form>
+                    {% endif %}
+                    <form action="" method="post">
+                        {% csrf_token %}
+                        <input type="hidden" id="fireEmployee" name="fireEmployee" value="{{employee.pk}}">
+                        <button class="btn btn-danger" style="display:inline-block;" type="submit">Fire and delete {{employee.user.username}}</button>
+                    </form>
+                </div>
+            
+
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+<div>
+
+<script src="https://cdn.jsdelivr.net/npm/pikaday/pikaday.js"></script>
+<script>
+    
+    var picker = new Pikaday({
+        field: document.getElementById('datepickerStart'),
+        firstDay: 1,
+        minDate: new Date()
+    });
+    var picker2 = new Pikaday({
+        field: document.getElementById('datepickerEnd'),
+        firstDay: 1,
+        minDate: new Date()
+    });
+</script>
+{% endblock %}

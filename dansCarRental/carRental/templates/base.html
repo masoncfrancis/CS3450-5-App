@@ -45,6 +45,12 @@
                 <a class="nav-link mx-2" href="{% url 'confirm_code' %}">Verify Code</a>
               </li>
             {% endif%}
+            {% if manager %}
+              <li class="nav-item">
+                <a class="nav-link mx-2" href="{% url 'employees' %}">Manage Employees</a>
+              </li>
+            {% endif %}
+              
             {% if user.is_authenticated %}
             <li class="nav-item">
               <a class="nav-link mx-2" href="{% url 'account' %}">Account</a>

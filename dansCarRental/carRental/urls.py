@@ -14,4 +14,5 @@ urlpatterns = [
     path('complete', views.complete, name='complete'),
     path('loJack', views.lojack, name="lojack"),
     path('rentedCars', views.rented_cars, name="rentedCars"),
+    path('employees', views.employees, name="employees"),
 ]

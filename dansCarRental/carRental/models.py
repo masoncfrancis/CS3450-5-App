@@ -23,20 +23,45 @@ class Employee(Customer):
         self.hours += hours
         self.save()
 
+    def getAmountOwed(self):
+        return self.hours * self.rate
+
     def __str__(self) -> str:
         return self.user.username
 
 class Manager(Employee):
 
     def hire(self, newHire):
-        n = Employee()
-        n.customer = newHire
+        n = Employee(customer_ptr=newHire)
+        n.save()
 
     def payEmployees(self):
         employee_list = Employee.objects.all()
         for emp in employee_list:
+            if (emp.user == self.user):
+                self.hours = 0
+                self.save()
+                continue
             emp.addMoney(emp.hours * emp.rate)
+            self.balance -= emp.hours * emp.rate
             emp.hours = 0
+            self.hours = 0
+            self.save()
+            emp.save()
+
+    def payEmployee(self, emp):
+        emp.addMoney(emp.hours * emp.rate)
+        self.balance -= emp.hours * emp.rate
+        emp.hours = 0
+        emp.save()
+        self.save()
+
+    def getAmountOwed(self):
+        amount = 0
+        for emp in Employee.objects.exclude(user=self.user):
+            amount += emp.hours * emp.rate
+        return amount
+
 
     def __str__(self) -> str:
         return self.user.username

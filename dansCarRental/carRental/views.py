@@ -3,15 +3,19 @@ from django.shortcuts import render, redirect
 from carRental.models import Vehicle, Reservation, Customer, Complaint, Manager, Employee
 from datetime import date
 from decimal import *
-import pprint
 from django.contrib.auth.models import User
+from django.contrib.auth.decorators import login_required
 import uuid 
 
 # Create your views here.
 def conf_ver_page(request):
     auth = False
+    manager = False
     if request.user.is_authenticated:
-        if Manager.objects.filter(user=request.user).exists() or Employee.objects.filter(user=request.user).exists() or request.user.is_superuser:
+        if Manager.objects.filter(user=request.user).exists() or request.user.is_superuser:
+            manager = True
+            auth = True
+        if Employee.objects.filter(user=request.user).exists() or request.user.is_superuser:
             auth = True
 
     c_code = None
@@ -38,13 +42,17 @@ def conf_ver_page(request):
             checkingout = 5
         else:
             checkingout = 3
-    context = {'c_code': c_code, 'reservation': reservation, 'v_type': v_type, 'checkingout' : checkingout, 'employee': auth}
+    context = {'c_code': c_code, 'reservation': reservation, 'v_type': v_type, 'checkingout' : checkingout, 'employee': auth, 'manager': manager}
     return render(request, 'carRental/conf_ver.html', context)
 
 def car_page(request):
     auth = False
+    manager = False
     if request.user.is_authenticated:
-        if Manager.objects.filter(user=request.user).exists() or Employee.objects.filter(user=request.user).exists() or request.user.is_superuser:
+        if Manager.objects.filter(user=request.user).exists() or request.user.is_superuser:
+            manager = True
+            auth = True
+        if Employee.objects.filter(user=request.user).exists() or request.user.is_superuser:
             auth = True
 
     typeOfCar = int(request.POST['type'])
@@ -78,26 +86,37 @@ def car_page(request):
         else:
             continue
         
-    context = {'cars': cars, 'start': start, 'end': end, 'employee': auth}
+    context = {'cars': cars, 'start': start, 'end': end, 'employee': auth, 'manager': manager}
     return render(request, 'carRental/cars.html', context)
 
-
+@login_required
 def checkout(request, car, startDate, endDate):
     auth = False
+    manager = False
     if request.user.is_authenticated:
-        if Manager.objects.filter(user=request.user).exists() or Employee.objects.filter(user=request.user).exists() or request.user.is_superuser:
+        if Manager.objects.filter(user=request.user).exists() or request.user.is_superuser:
+            manager = True
+            auth = True
+        if Employee.objects.filter(user=request.user).exists() or request.user.is_superuser:
             auth = True
     carObj = Vehicle.objects.get(id__exact=car)
     carName = f"{carObj.year} {carObj.make} {carObj.model}"
 
-    context = {'carId': car, 'carName': carName, 'carPrice': carObj.price,'startDate': startDate, 'endDate': endDate, 'employee': auth}
+    context = {'carId': car, 'carName': carName, 'carPrice': carObj.price,'startDate': startDate, 'endDate': endDate, 'employee': auth, 'manager': manager}
     return render(request, 'carRental/checkout.html', context)
 
+@login_required
 def complete(request):
     auth = False
+    manager = False
     if request.user.is_authenticated:
-        if Manager.objects.filter(user=request.user).exists() or Employee.objects.filter(user=request.user).exists() or request.user.is_superuser:
+        if Manager.objects.filter(user=request.user).exists() or request.user.is_superuser:
+            manager = True
             auth = True
+        if Employee.objects.filter(user=request.user).exists() or request.user.is_superuser:
+            auth = True
+
+    
 
     sufficientFunds = True
 
@@ -112,6 +131,9 @@ def complete(request):
 
     if custObj.balance < totalCost:  # check to make sure customer has enough money
         sufficientFunds = False
+
+    for man in Manager.objects.all():
+        man.balance += totalCost
 
 
     conformation = uuid.uuid4().hex[:6].upper()
@@ -131,7 +153,8 @@ def complete(request):
         'endDate': endDate,
         'remainingBalance': custObj.balance,
         'conformation' : conformation,
-        'employee': auth
+        'employee': auth,
+        'manager': manager
                }
     return render(request, 'carRental/complete.html', context)
 
@@ -139,8 +162,12 @@ def complete(request):
 def account_page(request):
 
     auth = False
+    manager = False
     if request.user.is_authenticated:
-        if Manager.objects.filter(user=request.user).exists() or Employee.objects.filter(user=request.user).exists() or request.user.is_superuser:
+        if Manager.objects.filter(user=request.user).exists() or request.user.is_superuser:
+            manager = True
+            auth = True
+        if Employee.objects.filter(user=request.user).exists() or request.user.is_superuser:
             auth = True
 
     #pprint.pprint(f"\n*** POST dictionary: {request.POST}\m")
@@ -184,22 +211,28 @@ def account_page(request):
     customer = customer_list[0]
     customer.addMoney(new_funds)
 
-    context = {'balance': customer.balance, 'first_name': user.first_name, 'last_name': user.last_name, 'email': user.email, 'complaints': complaints, 'employee':auth}
+    context = {'balance': customer.balance, 'first_name': user.first_name, 'last_name': user.last_name, 'email': user.email, 'complaints': complaints, 'employee':auth, 'manager': manager}
     return render(request, 'carRental/account.html', context)
 
 
 def home(request):
-    context = {"employee": False}
+    context = {"employee": False, "manager": False}
     if request.user.is_authenticated:
-        if Manager.objects.filter(user=request.user).exists() or Employee.objects.filter(user=request.user).exists() or request.user.is_superuser:
+        if Manager.objects.filter(user=request.user).exists() or request.user.is_superuser:
+            context["manager"] = True
+        if Employee.objects.filter(user=request.user).exists() or request.user.is_superuser:
             context["employee"] = True
     return render(request, 'carRental/home.html', context)
 
 
 def rented_cars(request):
     auth = False
+    manager = False
     if request.user.is_authenticated:
-        if Manager.objects.filter(user=request.user).exists() or Employee.objects.filter(user=request.user).exists() or request.user.is_superuser:
+        if Manager.objects.filter(user=request.user).exists() or request.user.is_superuser:
+            manager = True
+            auth = True
+        if Employee.objects.filter(user=request.user).exists() or request.user.is_superuser:
             auth = True
 
     if not auth:
@@ -213,13 +246,20 @@ def rented_cars(request):
     context["disabled"] = disabled
     context["overdue"] = overdue
     context["rented"] = rented
+    context["employee"] = auth
+    context["manager"] = manager
     return render(request, 'carRental/rentedCars.html', context)
 
 
 def lojack(request):
     auth = False
+    manager = False
     if request.user.is_authenticated:
-        if Manager.objects.filter(user=request.user).exists() or Employee.objects.filter(user=request.user).exists() or request.user.is_superuser:
+        if Manager.objects.filter(user=request.user).exists() or request.user.is_superuser:
+            manager = True
+            auth = True
+            auth = True
+        if Employee.objects.filter(user=request.user).exists() or request.user.is_superuser:
             auth = True
 
     if not auth:
@@ -235,3 +275,48 @@ def lojack(request):
     else :
         return HttpResponse("Error!")
 
+def employees(request):
+    auth = False
+    manager = False
+    if request.user.is_authenticated:
+        if Manager.objects.filter(user=request.user).exists() or request.user.is_superuser:
+            manager = True
+            auth = True
+            auth = True
+        if Employee.objects.filter(user=request.user).exists() or request.user.is_superuser:
+            auth = True
+
+    if not manager:
+        return HttpResponse("You are not authorized to view this page")
+    
+    managerObj = Manager.objects.get(user=request.user)
+    
+    if request.POST.get("PayAll") == "True":
+        managerObj.payEmployees()
+
+    if request.POST.get("payEmployee") != None:
+        employee = Employee.objects.get(id=request.POST.get("payEmployee"))
+        managerObj.payEmployee(employee)
+
+    if request.POST.get("fireEmployee") != None:
+        employee = Employee.objects.get(id=request.POST.get("fireEmployee"))
+        employee.delete()
+
+    if request.POST.get("username") != None:
+        username = request.POST.get("username")
+        user = Customer.objects.get(username=username)
+        managerObj.hire(user)
+        
+    
+    customer_list = Customer.objects.filter(user__username=request.user)
+    customer = customer_list[0]
+    
+    payAll = 0
+    for employee in Employee.objects.all():
+        payAll += employee.hours * employee.rate
+    
+    context={"employee": auth, "manager": manager, "balance": customer.balance, "payAll": managerObj.getAmountOwed()}
+    employees = Employee.objects.exclude(user = request.user).all()
+    context["employees"] = employees
+
+    return render(request, 'carRental/employees.html', context)

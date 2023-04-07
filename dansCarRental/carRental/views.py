@@ -137,7 +137,6 @@ def complete(request):
 
 
 def account_page(request):
-
     auth = False
     if request.user.is_authenticated:
         if Manager.objects.filter(user=request.user).exists() or Employee.objects.filter(user=request.user).exists() or request.user.is_superuser:
@@ -146,9 +145,10 @@ def account_page(request):
     #pprint.pprint(f"\n*** POST dictionary: {request.POST}\m")
 
     # Filing Complaint and Returning List of Complaints
-    if request.POST.get('complaint') != '':
-        complaint_text = str(request.POST.get('complaint'))
-        complaint = Complaint(user=request.user, description=complaint_text)
+    new_complaint = str(request.POST.get('complaint', ""))
+
+    if new_complaint != "":
+        complaint = Complaint(user=request.user, description=new_complaint)
         complaint.save()
 
     complaints = Complaint.objects.filter(user__username=request.user)

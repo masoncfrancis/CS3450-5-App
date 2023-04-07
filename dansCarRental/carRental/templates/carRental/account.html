@@ -43,6 +43,44 @@
 
           <hr class="my-4">
 
+          <h4 class="mb-3">Balance</h4>
+          <form action="{% url 'account' %}" method="post">
+              {% csrf_token %}
+              <div class="row g-3">
+                  <div class="col-12">
+                      <label>Current Balance: ${{ balance }}</label>
+                  </div>
+                  <div class="col-12">
+                      <label class="col-2" for="new_funds">Amount to Add:</label>
+                      <input class="bg-dark text-white rounded col-2" type="text" id="new_funds" name="funds" placeholder="">
+                  </div>
+
+                  <button class="col-2 btn btn-primary btn-sm" type="submit">Add Funds</button>
+              </div>
+          </form>
+
+          {% if employee %}
+          <hr class="my-4">
+
+          <h4 class="mb-3">Employee Hours</h4>
+          <form action="{% url 'account' %}" method="post">
+              {% csrf_token %}
+              <div class="row g-3">
+                  <div class="col-12">
+                      <label>Current Hours Worked: {{ hours }}</label>
+                  </div>
+                  <div class="col-12">
+                      <label class="col-2" for="new_hours">Hours to Add:</label>
+                      <input class="bg-dark text-white rounded col-2" type="text" id="new_hours" name="hours" placeholder="">
+                  </div>
+
+                  <button class="col-2 btn btn-primary btn-sm" type="submit">Add Hours</button>
+              </div>
+          </form>
+          {% endif %}
+
+          <hr class="my-4">
+
           <div class="row g-3">
               <form action="{% url 'account' %}" method="post">
                   {% csrf_token %}
@@ -83,24 +121,6 @@
                   </div>
               </form>
           </div>
-
-          <hr class="my-4">
-
-          <h4 class="mb-3">Balance</h4>
-          <form action="{% url 'account' %}" method="post">
-              {% csrf_token %}
-              <div class="row g-3">
-                  <div class="col-12">
-                      <label>Current Balance: ${{ balance }}</label>
-                  </div>
-                  <div class="col-12">
-                      <label class="col-2" for="new_funds">Amount to Add:</label>
-                      <input class="bg-dark text-white rounded col-2" type="text" id="new_funds" name="funds" placeholder="">
-                  </div>
-
-                  <button class="col-2 btn btn-primary btn-sm" type="submit">Add Funds</button>
-              </div>
-          </form>
 
           <hr class="my-4">
 

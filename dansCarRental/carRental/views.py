@@ -191,7 +191,12 @@ def account_page(request):
         complaint = Complaint(user=request.user, description=new_complaint)
         complaint.save()
 
+    if request.POST.get("deleteComplaint") != None:
+        complaint_to_delete = Complaint.objects.filter(id=request.POST.get("deleteComplaint"))
+        complaint_to_delete.delete()
+
     complaints = Complaint.objects.filter(user__username=request.user)
+
 
     # Updating User Info
     new_first_name = str(request.POST.get('new_first_name', ""))

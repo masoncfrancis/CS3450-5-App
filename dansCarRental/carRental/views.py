@@ -160,25 +160,43 @@ def complete(request):
 
 
 def account_page(request):
-
     auth = False
     manager = False
+    employee = False
+    hours = 0
     if request.user.is_authenticated:
         if Manager.objects.filter(user=request.user).exists() or request.user.is_superuser:
             manager = True
             auth = True
         if Employee.objects.filter(user=request.user).exists() or request.user.is_superuser:
+            employee = True
             auth = True
+            # Employee Hours
+            new_hours_form = request.POST.get("hours", 0)
+            if new_hours_form == "":
+                new_hours_form = "0"
 
-    #pprint.pprint(f"\n*** POST dictionary: {request.POST}\m")
+            new_hours = int(round(float(new_hours_form)))
+
+            employee_list = Employee.objects.filter(user__username=request.user)
+            employeeObj = employee_list[0]
+            employeeObj.addWorkedHours(new_hours)
+            hours = employeeObj.hours
+
 
     # Filing Complaint and Returning List of Complaints
-    if request.POST.get('complaint') != '':
-        complaint_text = str(request.POST.get('complaint'))
-        complaint = Complaint(user=request.user, description=complaint_text)
+    new_complaint = str(request.POST.get('complaint', ""))
+
+    if new_complaint != "":
+        complaint = Complaint(user=request.user, description=new_complaint)
         complaint.save()
 
+    if request.POST.get("deleteComplaint") != None:
+        complaint_to_delete = Complaint.objects.filter(id=request.POST.get("deleteComplaint"))
+        complaint_to_delete.delete()
+
     complaints = Complaint.objects.filter(user__username=request.user)
+
 
     # Updating User Info
     new_first_name = str(request.POST.get('new_first_name', ""))
@@ -197,21 +215,22 @@ def account_page(request):
         user.email = new_email
         user.save()
 
-
-    # Updating Customer Balance
+    # Updating Balance
     new_funds_form = request.POST.get("funds", 0)
-
     if new_funds_form == "":
         new_funds_form = "0"
 
     new_funds = Decimal(new_funds_form)
 
-    # new_funds = Decimal(request.POST.get('funds', 0))
     customer_list = Customer.objects.filter(user__username=request.user)
     customer = customer_list[0]
     customer.addMoney(new_funds)
 
-    context = {'balance': customer.balance, 'first_name': user.first_name, 'last_name': user.last_name, 'email': user.email, 'complaints': complaints, 'employee':auth, 'manager': manager}
+    # Returning reservations associated with customer
+    user_reservations = Reservation.objects.filter(customer=request.user)
+
+    context = {'balance': customer.balance, 'first_name': user.first_name, 'last_name': user.last_name, 'email': user.email, 'complaints': complaints, 'reservations': user_reservations, 'manager': manager, 'employee': employee, "hours": hours}
+
     return render(request, 'carRental/account.html', context)
 
 

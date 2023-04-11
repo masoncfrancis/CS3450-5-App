@@ -6,118 +6,178 @@
 {% block content %}
 {% if user.is_authenticated %}
 
-<form action="{% url 'account' %}" method="post">
+
 {% csrf_token %}
 <div class="container">
     <div class="row g-5" style="margin-top: 100">
       <div class="col-md-7 col-lg-8">
         <h4 class="mb-3">Account Info</h4>
-          <div class="row g-3">
+          <form action="{% url 'account' %}" method="post">
+              {% csrf_token %}
+              <div class="row g-3">
 
-              <div class="col-12">
-                  <label>Username: {{ user.username }}</label>
-              </div>
-
-              <div class="col-12">
-                  <label class="col-2" for="firstName">First Name:</label>
-                  <input class="bg-dark text-white rounded" type="text" id="firstName" name="new_first_name" placeholder="{{ first_name }}">
-              </div>
-
-              <div class="col-12">
-                  <label class="col-2" for="lastName">Last Name:</label>
-                  <input class="bg-dark text-white rounded" type="text" id="lastName" name="new_last_name" placeholder="{{ last_name }}">
-              </div>
-
-
-              <div class="col-12">
-                  <label class="col-2" for="email">Email:</label>
-                  <input class="bg-dark text-white rounded" type="text" id="email" name="new_email" placeholder="{{ email }}">
-              </div>
-
-              <button class="col-4 btn btn-primary" type="submit">Save Any Updated Info</button>
-
-          </div>
-
-          <hr class="my-4">
-
-          <div class="row g-3">
-              <div class="col-6">
-                  <h4 class="mb-3">File Complaint</h4>
-                  <div style="margin-bottom:10">
-                      <label>Tell us what happened...</label>
-                  </div>
-                  <div>
-                      <textarea class="bg-dark text-white rounded" id="complaint_text" name="complaint" rows="3"></textarea>
-                  </div>
-                  <div style="margin-top:10">
-                      <button class="btn btn-primary" type="submit">File Complaint</button>
+                  <div class="col-12">
+                      <label>Username: {{ user.username }}</label>
                   </div>
 
-              </div>
-              <div class="col-6">
-                  <h4 class="mb-3">Active Complaints</h4>
-                  <div class="overflow-auto bg-dark rounded" style="height:200">
-                      {% for complaint in complaints %}
-                      <div style="padding:5">
-                          <h6>Complaint #{{ forloop.counter }}</h6>
-                            <p>
-                              {{ complaint.description }}
-                            </p>
-                          <button class="btn btn-primary btn-sm" type="submit">Delete</button>
-                      </div>
-                      {% endfor %}
+                  <div class="col-12">
+                      <label class="col-2" for="firstName">First Name:</label>
+                      <input class="bg-dark text-white rounded col-4" type="text" id="firstName" name="new_first_name" placeholder="{{ first_name }}">
                   </div>
+
+                  <div class="col-12">
+                      <label class="col-2" for="lastName">Last Name:</label>
+                      <input class="bg-dark text-white rounded col-4" type="text" id="lastName" name="new_last_name" placeholder="{{ last_name }}">
+                  </div>
+
+
+                  <div class="col-12">
+                      <label class="col-2" for="email">Email:</label>
+                      <input class="bg-dark text-white rounded col-4" type="text" id="email" name="new_email" placeholder="{{ email }}">
+                  </div>
+
+                  <button class="col-2 btn btn-primary btn-sm" type="submit">Save Info</button>
+
               </div>
-          </div>
+          </form>
 
           <hr class="my-4">
 
           <h4 class="mb-3">Balance</h4>
-
+          <form action="{% url 'account' %}" method="post">
+              {% csrf_token %}
               <div class="row g-3">
                   <div class="col-12">
                       <label>Current Balance: ${{ balance }}</label>
                   </div>
                   <div class="col-12">
                       <label class="col-2" for="new_funds">Amount to Add:</label>
-                      <input class="bg-dark text-white rounded" type="text" id="new_funds" name="funds" placeholder="">
+                      <input class="bg-dark text-white rounded col-2" type="text" id="new_funds" name="funds" placeholder="">
                   </div>
 
-                  <button class="col-4 btn btn-primary" type="submit">Add Funds</button>
+                  <button class="col-2 btn btn-primary btn-sm" type="submit">Add Funds</button>
               </div>
+          </form>
+
+          {% if employee %}
+          <hr class="my-4">
+
+          <h4 class="mb-3">Employee Hours</h4>
+          <form action="{% url 'account' %}" method="post">
+              {% csrf_token %}
+              <div class="row g-3">
+                  <div class="col-12">
+                      <label>Current Hours Worked: {{ hours }}</label>
+                  </div>
+                  <div class="col-12">
+                      <label class="col-2" for="new_hours">Hours to Add:</label>
+                      <input class="bg-dark text-white rounded col-2" type="text" id="new_hours" name="hours" placeholder="">
+                  </div>
+
+                  <button class="col-2 btn btn-primary btn-sm" type="submit">Add Hours</button>
+              </div>
+          </form>
+          {% endif %}
+
+          <hr class="my-4">
+
+          <div class="row g-3">
+              <form action="{% url 'account' %}" method="post">
+                  {% csrf_token %}
+                  <div class="col-6">
+                      <h4 class="mb-3">File Complaint</h4>
+                      <div style="margin-bottom:10">
+                          <label>Tell us what happened...</label>
+                      </div>
+                      <div>
+                          <textarea class="bg-dark text-white rounded" style="min-width: 100%" id="complaint_text" name="complaint" rows="5"></textarea>
+                      </div>
+                      <div style="margin-top:10">
+                          <button class="btn btn-primary btn-sm" type="submit">File Complaint</button>
+                      </div>
+                  </div>
+              </form>
+              <form action="{% url 'account' %}" method="post">
+                  {% csrf_token %}
+                  <div class="col-6">
+                      <h4 class="mb-3">Active Complaints</h4>
+                      <div class="overflow-auto bg-dark rounded" style="height:300">
+                          <div class="card-deck">
+                              {% for complaint in complaints %}
+                              <div class="card shadow-sm" style="margin-bottom: 15px; margin-right: 15px; margin-left: 15px; margin-top: 15px;">
+                                  <h6 class="card-title" style="text-align: center;">Complaint #{{ forloop.counter }}</h6>
+                                  <p style="margin-left: 5px; margin-right: 5px;"><small>
+                                      {{ complaint.description }}
+                                  </small>
+                                  </p>
+                                  <div style="margin: auto;">
+                                      <form action="" method="post">
+                                          {% csrf_token %}
+                                          <input type="hidden" id="deleteComplaint" name="deleteComplaint"
+                                                 value="{{ complaint.id }}">
+                                          <button class="btn btn-primary btn-sm" style="display:inline-block;" type="submit">
+                                              Delete
+                                          </button>
+                                      </form>
+                                  </div>
+                              </div>
+                              {% endfor %}
+                          </div>
+                      </div>
+                  </div>
+              </form>
+          </div>
 
           <hr class="my-4">
 
           <h4 class="mb-3">Active Reservations</h4>
 
-            <div class="container">
-            <div class="card-deck">
-                {% with data="12345" %}
-                {% for i in data %}
-                <div class="card" style="margin-bottom:15px">
-                    <div class="card text-center">
-                        <div class="card-block">
-                        <h4 class="card-title">Car Reservation ID: {{ i }}</h4>
-                        <p>Vehicle Type:</p>
-                        <p>Start Date:</p>
-                        <p>End Date:</p>
-                            <div class="card-footer">
-                                <button class="btn btn-primary" style="margin-top:10" type="submit">Return Vehicle</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                {% endfor %}
-                {% endwith %}
-            </div>
-            </div>
+          <div class="container">
+              <div class="card-deck">
+                  {% for reservation in reservations %}
+                  <div class="card" style="margin-bottom:15px;">
+                      <h4 class="card-title" style="text-align: center;">Car Reservation</h4>
+                      <div class="row">
+                          <div class="col-sm-6">
+                              <div class="card">
+                                  <div class="card-block">
+                                      <h5 class="card-title" style="text-align: center;">Vehicle Info</h5>
+                                      <div style="margin-left:5px;">
+                                          <p>Vehicle Make: {{ reservation.vehicle.make }}</p>
+                                          <p>Vehicle Model: {{ reservation.vehicle.model }}</p>
+                                          <p>Vehicle Year: {{ reservation.vehicle.year }}</p>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                          <div class="col-sm-6">
+                              <div class="card">
+                                  <div class="card-block">
+                                      <h5 class="card-title" style="text-align: center;">Reservation Info</h5>
+                                      <div style="margin-left:5px;">
+                                          <p>Confirmation Code: {{ reservation.confirmation_code }}</p>
+                                          <p>Start Date: {{ reservation.start }}</p>
+                                          <p>End Date: {{ reservation.end }}</p>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                      <div class="card-footer">
+
+                      </div>
+                  </div>
+                  {% endfor %}
+              </div>
+
+          </div>
 
 
 
       </div>
     </div>
 </div>
-</form>
+
 
 
 {% else %}

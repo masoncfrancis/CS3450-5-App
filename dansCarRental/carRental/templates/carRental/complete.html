@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block title %}Complete Reservation{% endblock %}
+
+{% load static %}
+{% block content %}
+        {% csrf_token %}
+        <div class="container">
+            <div class="card-group" style="width: 40rem; margin:auto; margin-top: 100">
+                <div class="card">
+                    <div class="card-body">
+                        {% if sufficientFunds %}
+                        <h3 style="color: #00c776" class="card-title">Reservation Successful!</h3>
+                            <h5>Order Number: {{ reservation.pk }}</h5>
+                        {% else %}
+                        <h3 style="color: #ff2400" class="card-title">Reservation Failed - Insufficient Funds</h3>
+                        {% endif %}
+                            <h6>Car: {{ carName }}</h6>
+                            <h6>Start Date: {{ startDate }}</h6>
+                            <h6>End Date: {{ endDate }}</h6>
+                            {% if insurance %}
+                            <h6>Insurance: Yes</h6>
+                            {% else %}
+                            <h6>Insurance: No</h6>
+                            {% endif %}
+                            <br>
+                            <h5>Total: ${{ totalCost }}</h5>
+                            <h6>Balance: ${{ remainingBalance }}</h6>
+                            <h6>Confirmation Code: {{conformation}}</h6>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+{% endblock %}

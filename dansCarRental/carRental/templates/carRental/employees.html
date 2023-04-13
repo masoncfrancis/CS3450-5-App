@@ -5,6 +5,35 @@
 {% load static %}
 {% block content %}
 <div class="container">
+    <form action="{% url 'employees' %}" method="post">
+        {% csrf_token %}
+        <div style="margin-top: 5rem;">
+            <div class="overflow-auto bg-dark rounded" style="height:300">
+                <h4 class="mb-3" style="padding: 2rem;">Active Complaints</h4>
+                <div class="card-deck">
+                    {% for complaint in complaints %}
+                    <div class="card shadow-sm" style="margin-bottom: 15px; margin-right: 15px; margin-left: 15px; margin-top: 15px;">
+                        <h6 class="card-title" style="text-align: center;">Complaint #{{ forloop.counter }}</h6>
+                        <p style="margin-left: 5px; margin-right: 5px;"><small>
+                            {{ complaint.description }}
+                        </small>
+                        </p>
+                        <div style="margin: auto;">
+                            <form action="" method="post">
+                                {% csrf_token %}
+                                <input type="hidden" id="deleteComplaint" name="deleteComplaint"
+                                       value="{{ complaint.id }}">
+                                <button class="btn btn-primary btn-sm" style="display:inline-block;" type="submit">
+                                    Delete
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </form>
     <div class="row">
         <div class="card" style="width: 100%; margin: 10px;">
             <div class="card-body" style="display:flex; justify-content: space-between;">
@@ -55,19 +84,4 @@
         {% endfor %}
     </div>
 <div>
-
-<script src="https://cdn.jsdelivr.net/npm/pikaday/pikaday.js"></script>
-<script>
-    
-    var picker = new Pikaday({
-        field: document.getElementById('datepickerStart'),
-        firstDay: 1,
-        minDate: new Date()
-    });
-    var picker2 = new Pikaday({
-        field: document.getElementById('datepickerEnd'),
-        firstDay: 1,
-        minDate: new Date()
-    });
-</script>
 {% endblock %}

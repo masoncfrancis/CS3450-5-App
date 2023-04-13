@@ -134,6 +134,7 @@ def complete(request):
 
     for man in Manager.objects.all():
         man.balance += totalCost
+        man.save()
 
 
     conformation = uuid.uuid4().hex[:6].upper()

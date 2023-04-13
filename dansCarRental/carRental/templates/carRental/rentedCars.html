@@ -21,7 +21,7 @@
                             <form id="retreive" method="post" action="{% url 'lojack' %}">
                                 {% csrf_token %}
                                 <input type="hidden" name="pk" value="{{vehicle.pk}}" />
-                                <input type="submit" class="btn btn-success" style="width:10rem" value="Retreive this car"/>
+                                <input type="submit" class="btn btn-success" style="width:10rem" value="Un-lowjack this car"/>
                             </form>
                         </div>
                     </div>

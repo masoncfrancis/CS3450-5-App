@@ -82,6 +82,7 @@ class Vehicle(models.Model):
     year = models.CharField(max_length=4)
     price = models.IntegerField(choices=TIER)
     disabled = models.BooleanField(default=False)
+    photoFileName = models.CharField(max_length=35, default='')
 
     def __str__(self) -> str:
         return self.year + ", " + self.make + " " + self.model

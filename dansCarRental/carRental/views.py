@@ -256,7 +256,7 @@ def rented_cars(request):
             auth = True
 
     if not auth:
-        return HttpResponse("You are not authorized to view this page")
+        return render(request, "carRental/error.html", {"error": "You do not have permission to view this page", "employee": auth, "manager": manager})
     
         
     context={"employee": True}
@@ -283,7 +283,7 @@ def lojack(request):
             auth = True
 
     if not auth:
-        return HttpResponse("You are not authorized to view this page")
+        return render(request, "carRental/error.html", {"error": "You do not have permission to view this page", "employee": auth, "manager": manager})
     
 
     if request.method == "POST" and auth:
@@ -293,7 +293,8 @@ def lojack(request):
         vehicle.save()
         return redirect('rentedCars')
     else :
-        return HttpResponse("Error!")
+        if not auth:
+            return render(request, "carRental/error.html", {"error": "The attempt to lojack failed, please try again", "employee": auth, "manager": manager})
 
 def employees(request):
     auth = False
@@ -306,8 +307,8 @@ def employees(request):
         if Employee.objects.filter(user=request.user).exists() or request.user.is_superuser:
             auth = True
 
-    if not manager:
-        return HttpResponse("You are not authorized to view this page")
+    if not auth:
+        return render(request, "carRental/error.html", {"error": "You do not have permission to view this page", "employee": auth, "manager": manager})
     
     managerObj = Manager.objects.get(user=request.user)
     
@@ -326,16 +327,17 @@ def employees(request):
         username = request.POST.get("username")
         user = Customer.objects.get(username=username)
         managerObj.hire(user)
+
+    if request.POST.get("deleteComplaint") != None:
+        complaint_to_delete = Complaint.objects.filter(id=request.POST.get("deleteComplaint"))
+        complaint_to_delete.delete()
         
     
     customer_list = Customer.objects.filter(user__username=request.user)
     customer = customer_list[0]
+    complaints = Complaint.objects.all()
     
-    payAll = 0
-    for employee in Employee.objects.all():
-        payAll += employee.hours * employee.rate
-    
-    context={"employee": auth, "manager": manager, "balance": customer.balance, "payAll": managerObj.getAmountOwed()}
+    context={"employee": auth, "manager": manager, "balance": customer.balance, "payAll": managerObj.getAmountOwed(), "complaints": complaints}
     employees = Employee.objects.exclude(user = request.user).all()
     context["employees"] = employees
 

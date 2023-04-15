@@ -12,7 +12,7 @@
         {% for car in cars%}
         <div class="col-sm">  
             <div class="card" style="width: 18rem; margin: 10px;">
-                <img class="card-img-top" src="..." alt="Card image cap">
+                <img class="card-img-top" src="{% static './cars' %}/{{ car.photoFileName }}" alt="Card image cap">
                 <div class="card-body">
                     <h5 class="card-title">{{car.make}}</h5>
                     <p class="card-text">{{car.year}} {{car.make}} {{car.model}}</p>

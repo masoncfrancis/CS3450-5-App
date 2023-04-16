@@ -335,7 +335,7 @@ def employees(request):
     
     customer_list = Customer.objects.filter(user__username=request.user)
     customer = customer_list[0]
-    complaints = Complaint.objects.all()
+    complaints = Complaint.objects.exclude(user__username=request.user)
     
     context={"employee": auth, "manager": manager, "balance": customer.balance, "payAll": managerObj.getAmountOwed(), "complaints": complaints}
     employees = Employee.objects.exclude(user = request.user).all()

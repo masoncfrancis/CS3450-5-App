@@ -100,7 +100,7 @@
               <form action="{% url 'account' %}" method="post">
                   {% csrf_token %}
                   <div class="col-6">
-                      <h4 class="mb-3">Active Complaints</h4>
+                      <h4 class="mb-3">My Complaints</h4>
                       <div class="overflow-auto bg-dark rounded" style="height:300">
                           <div class="card-deck">
                               {% for complaint in complaints %}
@@ -126,6 +126,7 @@
                       </div>
                   </div>
               </form>
+            </form>
           </div>
 
           <hr class="my-4">

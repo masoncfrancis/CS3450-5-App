@@ -14,14 +14,14 @@
                 {% for vehicle in disabled%}
                 <div class="col-sm">  
                     <div class="card" style="width: 18rem; margin: 10px;">
-                        <img class="card-img-top" src="..." alt="Card image cap">
+                        <img class="card-img-top" src="{% static './cars' %}/{{ vehicle.photoFileName }}" alt="Card image cap">
                         <div class="card-body">
                             <h5 class="card-title">{{vehicle.make}}</h5>
                             <p class="card-text">{{vehicle.year}} {{vehicle.make}} {{vehicle.model}}</p>
                             <form id="retreive" method="post" action="{% url 'lojack' %}">
                                 {% csrf_token %}
                                 <input type="hidden" name="pk" value="{{vehicle.pk}}" />
-                                <input type="submit" class="btn btn-success" style="width:10rem" value="Un-lowjack this car"/>
+                                <input type="submit" class="btn btn-success" style="width:10rem" value="Un-lojack this car"/>
                             </form>
                         </div>
                     </div>
@@ -41,7 +41,7 @@
                 {% for res in overdue%}
                 <div class="col-sm">  
                     <div class="card" style="width: 18rem; margin: 10px;">
-                        <img class="card-img-top" src="..." alt="Card image cap">
+                        <img class="card-img-top" src="{% static './cars' %}/{{ res.vehicle.photoFileName }}" alt="Card image cap">
                         <div class="card-body">
                             <h5 class="card-title">{{res.vehicle.make}}</h5>
                             <p class="card-text">{{res.vehicle.year}} {{res.vehicle.make}} {{res.vehicle.model}}</p>
@@ -70,7 +70,7 @@
             {% for res in rented%}
             <div class="col-sm">  
                 <div class="card" style="width: 18rem; margin: 10px;">
-                    <img class="card-img-top" src="..." alt="Card image cap">
+                    <img class="card-img-top" src="{% static './cars' %}/{{ res.vehicle.photoFileName }}" alt="Card image cap">
                     <div class="card-body">
                         <h5 class="card-title">{{res.vehicle.make}}</h5>
                         <p class="card-text">{{res.vehicle.year}} {{res.vehicle.make}} {{res.vehicle.model}}</p>
